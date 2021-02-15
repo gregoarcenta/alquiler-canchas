@@ -5,17 +5,53 @@
  */
 package paneles.facturacion;
 
+import com.placeholder.PlaceHolder;
+import java.awt.Font;
+
+import rsbuttom.RSButtonMetro;
+
 /**
  *
  * @author RojeruSan
  */
-public class pnlFacturacion extends javax.swing.JPanel {
+public final class pnlFacturacion extends javax.swing.JPanel {
+
+    PlaceHolder holder;
+    RSButtonMetro metro = new RSButtonMetro();
 
     /**
      * Creates new form pnlHome
      */
     public pnlFacturacion() {
         initComponents();
+        Placeholder();
+    }
+
+    public void Placeholder() {
+
+        holder = new PlaceHolder(txtCedulaRuc, "RUC/Cèdula");
+        txtCedulaRuc.setFont(new Font("Tahoma", Font.BOLD, 18));
+        add(txtCedulaRuc);
+        holder = new PlaceHolder(txtCodigoCancha, "Còdigo de la cancha");
+        txtCodigoCancha.setFont(new Font("Tahoma", Font.BOLD, 18));
+        holder = new PlaceHolder(txtNombreRepresentante, "Nombre del representante");
+        txtNombreRepresentante.setFont(new Font("Tahoma", Font.BOLD, 18));
+        holder = new PlaceHolder(txtNumConvencional, "Nùmero Tèlefono Convencional");
+        txtNumConvencional.setFont(new Font("Tahoma", Font.BOLD, 18));
+        holder = new PlaceHolder(txtNumCelular, "Nùmero Tèlefono Celular");
+        txtNumCelular.setFont(new Font("Tahoma", Font.BOLD, 18));
+        holder = new PlaceHolder(txtDireccion, "Direcciòn");
+        txtDireccion.setFont(new Font("Tahoma", Font.BOLD, 18));
+        holder = new PlaceHolder(txtCorreo, "Correo");
+        txtCorreo.setFont(new Font("Tahoma", Font.BOLD, 18));
+        holder = new PlaceHolder(txtPrecioCanchaConsulta, "Precio de la Cancha");
+        txtPrecioCanchaConsulta.setFont(new Font("Tahoma", Font.BOLD, 18));
+        holder = new PlaceHolder(txtDescuento, "0%");
+        txtDescuento.setFont(new Font("Tahoma", Font.BOLD, 18));
+        holder = new PlaceHolder(txtHora, "Hora");
+        txtHora.setFont(new Font("Tahoma", Font.BOLD, 18));
+        holder = new PlaceHolder(txtTiempo, "Tiempo");
+        txtTiempo.setFont(new Font("Tahoma", Font.BOLD, 18));
     }
 
     /**
@@ -27,35 +63,638 @@ public class pnlFacturacion extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
+        PnlConsultaFactura = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtCedulaRuc = new app.bolivia.swing.JCTextField();
+        txtCodigoCancha = new app.bolivia.swing.JCTextField();
+        txtNombreRepresentante = new app.bolivia.swing.JCTextField();
+        txtNumConvencional = new app.bolivia.swing.JCTextField();
+        txtNumCelular = new app.bolivia.swing.JCTextField();
+        txtDescuento = new app.bolivia.swing.JCTextField();
+        txtDireccion = new app.bolivia.swing.JCTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        txtCorreo = new app.bolivia.swing.JCTextField();
+        btnBuscarCedula = new javax.swing.JButton();
+        btnBuscarCodigoCancha = new javax.swing.JButton();
+        txtPrecioCanchaConsulta = new app.bolivia.swing.JCTextField();
+        PnlMuestraFactura = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnagregarFecha = new javax.swing.JButton();
+        txtTiempo = new app.bolivia.swing.JCTextField();
+        txtHora = new app.bolivia.swing.JCTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        btnEliminarFecha = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+        JDFecha = new com.toedter.calendar.JDateChooser();
+        tableFacturacion = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        Total = new javax.swing.JLabel();
+        jLDescuentoFactura = new javax.swing.JLabel();
+        jLSubtotal = new javax.swing.JLabel();
+        jLTotalFactura = new javax.swing.JLabel();
+        jLIvaFactura = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        btnImprimirFactura = new javax.swing.JButton();
+        btnEliminarFactura = new javax.swing.JButton();
+        btnGuardarFactura = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(255, 255, 255));
-
+        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(128, 128, 131));
+        jLabel7.setForeground(new java.awt.Color(50, 67, 166));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Facturación");
+
+        PnlConsultaFactura.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(50, 67, 166));
+        jLabel1.setText("Descuento:");
+
+        txtCedulaRuc.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtCedulaRuc.setForeground(new java.awt.Color(51, 51, 51));
+        txtCedulaRuc.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtCedulaRuc.setPhColor(new java.awt.Color(255, 255, 255));
+        txtCedulaRuc.setPlaceholder("SEARCH");
+        txtCedulaRuc.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtCedulaRuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCedulaRucActionPerformed(evt);
+            }
+        });
+
+        txtCodigoCancha.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtCodigoCancha.setForeground(new java.awt.Color(51, 51, 51));
+        txtCodigoCancha.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtCodigoCancha.setPhColor(new java.awt.Color(255, 255, 255));
+        txtCodigoCancha.setPlaceholder("SEARCH");
+        txtCodigoCancha.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtCodigoCancha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoCanchaActionPerformed(evt);
+            }
+        });
+
+        txtNombreRepresentante.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtNombreRepresentante.setForeground(new java.awt.Color(51, 51, 51));
+        txtNombreRepresentante.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtNombreRepresentante.setPhColor(new java.awt.Color(255, 255, 255));
+        txtNombreRepresentante.setPlaceholder("SEARCH");
+        txtNombreRepresentante.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtNombreRepresentante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreRepresentanteActionPerformed(evt);
+            }
+        });
+
+        txtNumConvencional.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtNumConvencional.setForeground(new java.awt.Color(51, 51, 51));
+        txtNumConvencional.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtNumConvencional.setPhColor(new java.awt.Color(255, 255, 255));
+        txtNumConvencional.setPlaceholder("SEARCH");
+        txtNumConvencional.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtNumConvencional.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumConvencionalActionPerformed(evt);
+            }
+        });
+
+        txtNumCelular.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtNumCelular.setForeground(new java.awt.Color(51, 51, 51));
+        txtNumCelular.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtNumCelular.setPhColor(new java.awt.Color(255, 255, 255));
+        txtNumCelular.setPlaceholder("SEARCH");
+        txtNumCelular.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtNumCelular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumCelularActionPerformed(evt);
+            }
+        });
+
+        txtDescuento.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtDescuento.setForeground(new java.awt.Color(51, 51, 51));
+        txtDescuento.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtDescuento.setPhColor(new java.awt.Color(255, 255, 255));
+        txtDescuento.setPlaceholder("SEARCH");
+        txtDescuento.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtDescuento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDescuentoActionPerformed(evt);
+            }
+        });
+
+        txtDireccion.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtDireccion.setForeground(new java.awt.Color(51, 51, 51));
+        txtDireccion.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtDireccion.setPhColor(new java.awt.Color(255, 255, 255));
+        txtDireccion.setPlaceholder("SEARCH");
+        txtDireccion.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtDireccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDireccionActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Personerìa", "Natural", "Jurìdica" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(50, 67, 166));
+        jLabel2.setText("Nueva Consulta");
+
+        txtCorreo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtCorreo.setForeground(new java.awt.Color(51, 51, 51));
+        txtCorreo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtCorreo.setPhColor(new java.awt.Color(255, 255, 255));
+        txtCorreo.setPlaceholder("SEARCH");
+        txtCorreo.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCorreoActionPerformed(evt);
+            }
+        });
+
+        btnBuscarCedula.setBackground(new java.awt.Color(50, 67, 166));
+        btnBuscarCedula.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnBuscarCedula.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscarCedula.setText("Buscar");
+        btnBuscarCedula.setBorder(null);
+
+        btnBuscarCodigoCancha.setBackground(new java.awt.Color(50, 67, 166));
+        btnBuscarCodigoCancha.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnBuscarCodigoCancha.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscarCodigoCancha.setText("Buscar");
+        btnBuscarCodigoCancha.setBorder(null);
+
+        txtPrecioCanchaConsulta.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtPrecioCanchaConsulta.setForeground(new java.awt.Color(51, 51, 51));
+        txtPrecioCanchaConsulta.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtPrecioCanchaConsulta.setPhColor(new java.awt.Color(255, 255, 255));
+        txtPrecioCanchaConsulta.setPlaceholder("SEARCH");
+        txtPrecioCanchaConsulta.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtPrecioCanchaConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecioCanchaConsultaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PnlConsultaFacturaLayout = new javax.swing.GroupLayout(PnlConsultaFactura);
+        PnlConsultaFactura.setLayout(PnlConsultaFacturaLayout);
+        PnlConsultaFacturaLayout.setHorizontalGroup(
+            PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PnlConsultaFacturaLayout.createSequentialGroup()
+                            .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtNombreRepresentante, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNumConvencional, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtNumCelular, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                                .addComponent(txtDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(18, 18, 18)
+                            .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
+                            .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtCedulaRuc, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtCodigoCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnBuscarCodigoCancha, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                                .addComponent(btnBuscarCedula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(txtPrecioCanchaConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(337, Short.MAX_VALUE)))
+        );
+        PnlConsultaFacturaLayout.setVerticalGroup(
+            PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
+                .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(btnBuscarCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlConsultaFacturaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(txtCedulaRuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(8, 8, 8)
+                .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBuscarCodigoCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodigoCancha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
+                        .addComponent(txtNombreRepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(txtNumConvencional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(txtNumCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(txtPrecioCanchaConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26))
+            .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
+                    .addGap(21, 21, 21)
+                    .addComponent(jLabel2)
+                    .addContainerGap(417, Short.MAX_VALUE)))
+        );
+
+        PnlMuestraFactura.setBackground(new java.awt.Color(255, 255, 255));
+
+        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+
+        btnagregarFecha.setBackground(new java.awt.Color(255, 255, 255));
+        btnagregarFecha.setForeground(new java.awt.Color(255, 255, 255));
+        btnagregarFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mas_registrar.png"))); // NOI18N
+
+        txtTiempo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtTiempo.setForeground(new java.awt.Color(51, 51, 51));
+        txtTiempo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtTiempo.setPhColor(new java.awt.Color(255, 255, 255));
+        txtTiempo.setPlaceholder("SEARCH");
+        txtTiempo.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtTiempo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTiempoActionPerformed(evt);
+            }
+        });
+
+        txtHora.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
+        txtHora.setForeground(new java.awt.Color(51, 51, 51));
+        txtHora.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txtHora.setPhColor(new java.awt.Color(255, 255, 255));
+        txtHora.setPlaceholder("SEARCH");
+        txtHora.setSelectedTextColor(new java.awt.Color(51, 51, 51));
+        txtHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHoraActionPerformed(evt);
+            }
+        });
+
+        jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
+
+        btnEliminarFecha.setBackground(new java.awt.Color(255, 255, 255));
+        btnEliminarFecha.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminarFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar_hora.png"))); // NOI18N
+
+        jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
+
+        jTable1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Fecha", "Hora", "Tiempo", "Precio"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout tableFacturacionLayout = new javax.swing.GroupLayout(tableFacturacion);
+        tableFacturacion.setLayout(tableFacturacionLayout);
+        tableFacturacionLayout.setHorizontalGroup(
+            tableFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tableFacturacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        tableFacturacionLayout.setVerticalGroup(
+            tableFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tableFacturacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Precio");
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jLabel4.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel4.setText("Descuento:");
+
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel5.setText("IVA 12%:");
+
+        Total.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        Total.setForeground(new java.awt.Color(153, 153, 153));
+        Total.setText("Total:");
+
+        jLDescuentoFactura.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jLDescuentoFactura.setForeground(new java.awt.Color(153, 153, 153));
+        jLDescuentoFactura.setText("0.00");
+
+        jLSubtotal.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jLSubtotal.setForeground(new java.awt.Color(153, 153, 153));
+        jLSubtotal.setText("0.00");
+
+        jLTotalFactura.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jLTotalFactura.setForeground(new java.awt.Color(153, 153, 153));
+        jLTotalFactura.setText("0.00");
+
+        jLIvaFactura.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jLIvaFactura.setForeground(new java.awt.Color(153, 153, 153));
+        jLIvaFactura.setText("0.00");
+
+        jLabel6.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel6.setText("Subtotal:");
+
+        javax.swing.GroupLayout PnlMuestraFacturaLayout = new javax.swing.GroupLayout(PnlMuestraFactura);
+        PnlMuestraFactura.setLayout(PnlMuestraFacturaLayout);
+        PnlMuestraFacturaLayout.setHorizontalGroup(
+            PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
+                        .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
+                                .addComponent(btnagregarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JDFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSeparator1)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
+                                .addComponent(btnEliminarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(tableFacturacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 8, Short.MAX_VALUE))
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlMuestraFacturaLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(Total)
+                            .addComponent(jLabel6))
+                        .addGap(82, 82, 82)
+                        .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLDescuentoFactura)
+                            .addComponent(jLSubtotal)
+                            .addComponent(jLIvaFactura)
+                            .addComponent(jLTotalFactura))
+                        .addGap(21, 21, 21))))
+        );
+        PnlMuestraFacturaLayout.setVerticalGroup(
+            PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnagregarFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(JDFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(btnEliminarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tableFacturacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73)
+                .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLSubtotal)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLDescuentoFactura))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLIvaFactura))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Total)
+                    .addComponent(jLTotalFactura))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
+        btnImprimirFactura.setBackground(new java.awt.Color(50, 67, 166));
+        btnImprimirFactura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnImprimirFactura.setForeground(new java.awt.Color(255, 255, 255));
+        btnImprimirFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/inprimir_factura.png"))); // NOI18N
+        btnImprimirFactura.setText("Imprimir");
+        btnImprimirFactura.setBorder(null);
+
+        btnEliminarFactura.setBackground(new java.awt.Color(85, 70, 140));
+        btnEliminarFactura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnEliminarFactura.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminarFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/borrar_factura.png"))); // NOI18N
+        btnEliminarFactura.setText("Eliminar");
+        btnEliminarFactura.setBorder(null);
+
+        btnGuardarFactura.setBackground(new java.awt.Color(99, 242, 135));
+        btnGuardarFactura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnGuardarFactura.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardarFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar_factura.png"))); // NOI18N
+        btnGuardarFactura.setText("Guardar");
+        btnGuardarFactura.setBorder(null);
+        btnGuardarFactura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarFacturaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(PnlConsultaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PnlMuestraFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnGuardarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(btnEliminarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnImprimirFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PnlConsultaFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PnlMuestraFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnImprimirFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addContainerGap(446, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtCedulaRucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaRucActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedulaRucActionPerformed
+
+    private void txtCodigoCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoCanchaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoCanchaActionPerformed
+
+    private void txtNombreRepresentanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreRepresentanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreRepresentanteActionPerformed
+
+    private void txtNumConvencionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumConvencionalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumConvencionalActionPerformed
+
+    private void txtNumCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumCelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumCelularActionPerformed
+
+    private void txtDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescuentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescuentoActionPerformed
+
+    private void txtDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDireccionActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCorreoActionPerformed
+
+    private void btnGuardarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarFacturaActionPerformed
+
+    }//GEN-LAST:event_btnGuardarFacturaActionPerformed
+
+    private void txtTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTiempoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTiempoActionPerformed
+
+    private void txtHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoraActionPerformed
+
+    private void txtPrecioCanchaConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioCanchaConsultaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecioCanchaConsultaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser JDFecha;
+    private javax.swing.JPanel PnlConsultaFactura;
+    private javax.swing.JPanel PnlMuestraFactura;
+    private javax.swing.JLabel Total;
+    private javax.swing.JButton btnBuscarCedula;
+    private javax.swing.JButton btnBuscarCodigoCancha;
+    private javax.swing.JButton btnEliminarFactura;
+    private javax.swing.JButton btnEliminarFecha;
+    private javax.swing.JButton btnGuardarFactura;
+    private javax.swing.JButton btnImprimirFactura;
+    private javax.swing.JButton btnagregarFecha;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLDescuentoFactura;
+    private javax.swing.JLabel jLIvaFactura;
+    private javax.swing.JLabel jLSubtotal;
+    private javax.swing.JLabel jLTotalFactura;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel tableFacturacion;
+    private app.bolivia.swing.JCTextField txtCedulaRuc;
+    private app.bolivia.swing.JCTextField txtCodigoCancha;
+    private app.bolivia.swing.JCTextField txtCorreo;
+    private app.bolivia.swing.JCTextField txtDescuento;
+    private app.bolivia.swing.JCTextField txtDireccion;
+    private app.bolivia.swing.JCTextField txtHora;
+    private app.bolivia.swing.JCTextField txtNombreRepresentante;
+    private app.bolivia.swing.JCTextField txtNumCelular;
+    private app.bolivia.swing.JCTextField txtNumConvencional;
+    private app.bolivia.swing.JCTextField txtPrecioCanchaConsulta;
+    private app.bolivia.swing.JCTextField txtTiempo;
     // End of variables declaration//GEN-END:variables
 }
