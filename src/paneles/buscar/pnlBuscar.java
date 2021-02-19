@@ -5,18 +5,35 @@
  */
 package paneles.buscar;
 
+import com.placeholder.PlaceHolder;
+import java.awt.Font;
+import javax.swing.JOptionPane;
+import paneles.CambiaPanel;
+import paneles.buscar.tipos.tipoCancha;
+import paneles.buscar.tipos.tipoCliente;
+import paneles.buscar.tipos.tipoFactura;
+
 /**
  *
  * @author RojeruSan
  */
 public class pnlBuscar extends javax.swing.JPanel {
+    
+    tipoCancha pnlCancha = new tipoCancha();
+    tipoCliente pnlCliente = new tipoCliente();
+    tipoFactura pnlFactura = new tipoFactura();
 
     /**
      * Creates new form pnlHome
      */
     public pnlBuscar() {
         initComponents();
+        pnlContenedor.add(pnlCliente);
+        pnlContenedor.add(pnlCancha);
+        pnlContenedor.add(pnlFactura);
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,56 +44,112 @@ public class pnlBuscar extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel7 = new javax.swing.JLabel();
-        jCTextField1 = new app.bolivia.swing.JCTextField();
+        jpBuscarCombo = new javax.swing.JPanel();
+        cbBuscar = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        pnlContenedor = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel7.setFont(new java.awt.Font("Roboto", 1, 48)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(128, 128, 131));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Buscar");
+        jpBuscarCombo.setBackground(new java.awt.Color(255, 255, 255));
 
-        jCTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
-        jCTextField1.setForeground(new java.awt.Color(51, 51, 51));
-        jCTextField1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jCTextField1.setPhColor(new java.awt.Color(255, 255, 255));
-        jCTextField1.setPlaceholder("SEARCH");
-        jCTextField1.setSelectedTextColor(new java.awt.Color(51, 51, 51));
-        jCTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCTextField1ActionPerformed(evt);
+        cbBuscar.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        cbBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Clientes", "Canchas", "Facturación" }));
+        cbBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbBuscarMouseClicked(evt);
             }
         });
+        cbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel1.setText("Buscar por:");
+
+        javax.swing.GroupLayout jpBuscarComboLayout = new javax.swing.GroupLayout(jpBuscarCombo);
+        jpBuscarCombo.setLayout(jpBuscarComboLayout);
+        jpBuscarComboLayout.setHorizontalGroup(
+            jpBuscarComboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpBuscarComboLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(jpBuscarComboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpBuscarComboLayout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(52, 52, 52)))
+                .addGap(49, 49, 49))
+        );
+        jpBuscarComboLayout.setVerticalGroup(
+            jpBuscarComboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpBuscarComboLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
+        );
+
+        pnlContenedor.setBackground(new java.awt.Color(255, 255, 255));
+        pnlContenedor.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jpBuscarCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(pnlContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(43, 43, 43))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(jCTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(396, Short.MAX_VALUE))
+                .addComponent(jpBuscarCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCTextField1ActionPerformed
+    private void cbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBuscarActionPerformed
+        int index = cbBuscar.getSelectedIndex();
+        //JOptionPane.showMessageDialog(pnlCliente, "hsasdhagh");
+        if(index == 0){
+           pnlContenedor.add(pnlCliente);
+           pnlContenedor.add(pnlCancha);
+           pnlContenedor.add(pnlFactura);
+        } 
+        if(index == 1){
+            pnlContenedor.add(pnlCancha);
+            pnlContenedor.add(pnlCliente);
+            pnlContenedor.add(pnlFactura);
+        }
+         if(index == 2){
+            pnlContenedor.add(pnlFactura);
+            pnlContenedor.add(pnlCancha);
+            pnlContenedor.add(pnlCliente);
+        }
+    }//GEN-LAST:event_cbBuscarActionPerformed
+
+    private void cbBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbBuscarMouseClicked
+           // TODO add your handling code here:
+    }//GEN-LAST:event_cbBuscarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private app.bolivia.swing.JCTextField jCTextField1;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JComboBox<String> cbBuscar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jpBuscarCombo;
+    private javax.swing.JPanel pnlContenedor;
     // End of variables declaration//GEN-END:variables
 }
