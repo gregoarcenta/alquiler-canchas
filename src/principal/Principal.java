@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package principal;
 
 import java.awt.Color;
@@ -10,21 +5,13 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import paneles.CambiaPanel;
 
-/**
- *
- * @author RojeruSan
- */
 public class Principal extends javax.swing.JFrame {
 
     int x, y;
-    /**
-     * Creates new form Principal
-     */
     
     public Principal() {
         initComponents();
