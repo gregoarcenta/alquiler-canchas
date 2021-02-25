@@ -13,8 +13,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -35,7 +39,7 @@ public class tipoFactura extends javax.swing.JPanel {
     }
     
     public void Placeholder() {
-        holder = new PlaceHolder(txtBuscarAlquiler, "Ingrese RUC/Cédula");
+        holder = new PlaceHolder(txtBuscarAlquiler, "1351430754 / 14:00");
         txtBuscarAlquiler.setFont(new Font("Tahoma", Font.BOLD, 14));
     }
 
@@ -56,7 +60,7 @@ public class tipoFactura extends javax.swing.JPanel {
                 registros[3] = rs.getString("hor_alquiler");
                 registros[4] = rs.getString("pre_alquiler");
                 registros[5] = rs.getString("tie_alquiler");
-                registros[6] = rs.getString("des_alquiler");
+                registros[6] = rs.getString("des_alquiler")+ "%";
                 modelo.addRow(registros);
                 tbAlquiler.setModel(modelo);
             }
@@ -77,17 +81,18 @@ public class tipoFactura extends javax.swing.JPanel {
         pnlContenedor = new javax.swing.JPanel();
         jpFiltro = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        cbBuscarHora = new javax.swing.JComboBox<>();
         JDFechaHasta = new com.toedter.calendar.JDateChooser();
         JDFechaDesde = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
+        btnBuscarAlquiler = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbAlquiler = new javax.swing.JTable();
         jpAlquilerEntrada = new javax.swing.JPanel();
         txtBuscarAlquiler = new app.bolivia.swing.JCTextField();
         jLabel2 = new javax.swing.JLabel();
-        btnBuscarAlquiler = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        rbCedula = new javax.swing.JRadioButton();
+        rbHora = new javax.swing.JRadioButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -95,25 +100,9 @@ public class tipoFactura extends javax.swing.JPanel {
 
         jpFiltro.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 51, 204));
-        jLabel3.setText("Fecha desde:");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 51, 204));
-        jLabel4.setText("Hora:");
-
-        cbBuscarHora.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        cbBuscarHora.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbBuscarHoraMouseClicked(evt);
-            }
-        });
-        cbBuscarHora.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbBuscarHoraActionPerformed(evt);
-            }
-        });
+        jLabel3.setText("Fecha inicio:");
 
         JDFechaDesde.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -121,9 +110,20 @@ public class tipoFactura extends javax.swing.JPanel {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 51, 204));
         jLabel5.setText("Fecha fin:");
+
+        btnBuscarAlquiler.setBackground(new java.awt.Color(50, 67, 166));
+        btnBuscarAlquiler.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnBuscarAlquiler.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscarAlquiler.setText("Buscar");
+        btnBuscarAlquiler.setBorder(null);
+        btnBuscarAlquiler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarAlquilerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpFiltroLayout = new javax.swing.GroupLayout(jpFiltro);
         jpFiltro.setLayout(jpFiltroLayout);
@@ -137,32 +137,28 @@ public class tipoFactura extends javax.swing.JPanel {
                     .addGroup(jpFiltroLayout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
                 .addGroup(jpFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpFiltroLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel5))
-                    .addGroup(jpFiltroLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(JDFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(jpFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbBuscarHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(30, 30, 30))
+                    .addComponent(JDFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBuscarAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jpFiltroLayout.setVerticalGroup(
             jpFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpFiltroLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jpFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
-                .addGap(9, 9, 9)
-                .addGroup(jpFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JDFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JDFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbBuscarHora, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jpFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnBuscarAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpFiltroLayout.createSequentialGroup()
+                        .addGroup(jpFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JDFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JDFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(23, 23, 23))
         );
 
@@ -226,20 +222,31 @@ public class tipoFactura extends javax.swing.JPanel {
             jpAlquilerEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpAlquilerEntradaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jpAlquilerEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtBuscarAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
+            .addGroup(jpAlquilerEntradaLayout.createSequentialGroup()
+                .addComponent(txtBuscarAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        btnBuscarAlquiler.setBackground(new java.awt.Color(50, 67, 166));
-        btnBuscarAlquiler.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnBuscarAlquiler.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscarAlquiler.setText("Buscar");
-        btnBuscarAlquiler.setBorder(null);
-        btnBuscarAlquiler.addActionListener(new java.awt.event.ActionListener() {
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel6.setText("Ingrese Ruc/Cédula o hora de alquiler");
+
+        rbCedula.setBackground(new java.awt.Color(255, 255, 255));
+        rbCedula.setText("RUC/Cèdula");
+        rbCedula.setActionCommand("jRadioButton");
+        rbCedula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarAlquilerActionPerformed(evt);
+                rbCedulaActionPerformed(evt);
+            }
+        });
+
+        rbHora.setBackground(new java.awt.Color(255, 255, 255));
+        rbHora.setText("Hora");
+        rbHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbHoraActionPerformed(evt);
             }
         });
 
@@ -251,25 +258,39 @@ public class tipoFactura extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(pnlContenedorLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContenedorLayout.createSequentialGroup()
                         .addComponent(jpFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscarAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
-                        .addComponent(jpAlquilerEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
+                        .addGroup(pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbCedula)
+                            .addComponent(rbHora))
+                        .addGap(53, 53, 53)
+                        .addGroup(pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jpAlquilerEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContenedorLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(12, 12, 12)))))
                 .addContainerGap())
         );
         pnlContenedorLayout.setVerticalGroup(
             pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlContenedorLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jpAlquilerEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jpFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlContenedorLayout.createSequentialGroup()
-                        .addComponent(btnBuscarAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)))
-                .addGap(33, 33, 33)
+                        .addGap(37, 37, 37)
+                        .addComponent(jpFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContenedorLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jpAlquilerEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlContenedorLayout.createSequentialGroup()
+                                .addComponent(rbCedula)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbHora)))
+                        .addGap(36, 36, 36)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(27, Short.MAX_VALUE))
         );
@@ -292,21 +313,18 @@ public class tipoFactura extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbBuscarHoraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbBuscarHoraMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbBuscarHoraMouseClicked
-
-    private void cbBuscarHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBuscarHoraActionPerformed
-        
-    }//GEN-LAST:event_cbBuscarHoraActionPerformed
-
     private void txtBuscarAlquilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarAlquilerActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarAlquilerActionPerformed
 
     private void txtBuscarAlquilerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarAlquilerKeyReleased
         String valor = txtBuscarAlquiler.getText();
-        String SQL = "select * from tmaeclialq inner join ttraalqalq on tmaeclialq.id_cliente = ttraalqalq.id_cliente inner join tmaecanalq on ttraalqalq.id_cancha = tmaecanalq.id_cancha and tmaeclialq.cedruc_cliente like '"+valor+"%'";
+        String SQL = "";
+        if(rbCedula.isSelected()){
+            SQL = "select * from tmaeclialq inner join ttraalqalq on tmaeclialq.id_cliente = ttraalqalq.id_cliente inner join tmaecanalq on ttraalqalq.id_cancha = tmaecanalq.id_cancha and tmaeclialq.cedruc_cliente like '"+valor+"%'";
+        }else if(rbHora.isSelected()){
+            SQL = "select * from tmaeclialq inner join ttraalqalq on tmaeclialq.id_cliente = ttraalqalq.id_cliente inner join tmaecanalq on ttraalqalq.id_cancha = tmaecanalq.id_cancha and ttraalqalq.hor_alquiler like '"+valor+"%'";
+        }
         mostrarDatos(SQL);
     }//GEN-LAST:event_txtBuscarAlquilerKeyReleased
 
@@ -337,21 +355,32 @@ public class tipoFactura extends javax.swing.JPanel {
         mostrarDatos(SQL);
     }//GEN-LAST:event_btnBuscarAlquilerActionPerformed
 
+    private void rbCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbCedulaActionPerformed
+        rbHora.setSelected(false);
+    }//GEN-LAST:event_rbCedulaActionPerformed
+
+    private void rbHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbHoraActionPerformed
+        rbCedula.setSelected(false);
+    }//GEN-LAST:event_rbHoraActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser JDFechaDesde;
     private com.toedter.calendar.JDateChooser JDFechaHasta;
     private javax.swing.JButton btnBuscarAlquiler;
-    private javax.swing.JComboBox<String> cbBuscarHora;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel jpAlquilerEntrada;
     private javax.swing.JPanel jpFiltro;
     private javax.swing.JPanel pnlContenedor;
+    private javax.swing.JRadioButton rbCedula;
+    private javax.swing.JRadioButton rbHora;
     private javax.swing.JTable tbAlquiler;
     private app.bolivia.swing.JCTextField txtBuscarAlquiler;
+    private app.bolivia.swing.JCTextField txtTiempo;
+    private app.bolivia.swing.JCTextField txtTiempo1;
     // End of variables declaration//GEN-END:variables
 }
