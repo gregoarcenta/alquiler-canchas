@@ -22,7 +22,7 @@ public class pnlCancha extends javax.swing.JPanel {
     }
     
     public void Placeholder() {
-        new PlaceHolder(txtCodCancha, "Cógigo");
+        new PlaceHolder(txtCodCancha, "Código");
         txtCodCancha.setFont(new Font("Tahoma", Font.BOLD, 14));
         new PlaceHolder(txtPrecioCancha, "Precio por hora");
         txtPrecioCancha.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -89,7 +89,7 @@ public class pnlCancha extends javax.swing.JPanel {
         btnEditarCancha.setBackground(new java.awt.Color(50, 67, 166));
         btnEditarCancha.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnEditarCancha.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditarCancha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/inprimir_factura.png"))); // NOI18N
+        btnEditarCancha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar_opt.png"))); // NOI18N
         btnEditarCancha.setText("Editar");
         btnEditarCancha.setBorder(null);
 
@@ -329,9 +329,11 @@ public class pnlCancha extends javax.swing.JPanel {
         }else if(cbTipoCancha.getSelectedItem()== "Tenis"){
             cbDesCancha.removeAllItems();
             cbDesCancha.addItem("Cemento");
+            cbDesCancha.addItem("Césped");
         }else if(cbTipoCancha.getSelectedItem()== "Básquet"){
             cbDesCancha.removeAllItems();
             cbDesCancha.addItem("Cemento");
+            cbDesCancha.addItem("Madera");
         }
     }//GEN-LAST:event_cbTipoCanchaActionPerformed
 
