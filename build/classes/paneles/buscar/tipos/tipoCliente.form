@@ -55,7 +55,7 @@
                       <Component id="jScrollPane1" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="jpFiltro" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="268" max="32767" attributes="0"/>
+                          <EmptySpace pref="271" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="rbCedula" min="-2" max="-2" attributes="0"/>
                               <Component id="rbNombre" min="-2" max="-2" attributes="0"/>
@@ -169,7 +169,7 @@
                   <StringArray count="3">
                     <StringItem index="0" value="Seleccionar"/>
                     <StringItem index="1" value="Premium"/>
-                    <StringItem index="2" value="Ocasionales"/>
+                    <StringItem index="2" value="Ocasional"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -190,7 +190,7 @@
                   <StringArray count="3">
                     <StringItem index="0" value="Seleccionar"/>
                     <StringItem index="1" value="Natural"/>
-                    <StringItem index="2" value="Juridica"/>
+                    <StringItem index="2" value="Jur&#xed;dica"/>
                   </StringArray>
                 </Property>
               </Properties>

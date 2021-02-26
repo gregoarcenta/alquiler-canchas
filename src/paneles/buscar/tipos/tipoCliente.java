@@ -61,14 +61,14 @@ public class tipoCliente extends javax.swing.JPanel {
         String tipo = String.valueOf(cbBuscarTipo.getSelectedItem()); 
         String SQL = "";
         if (rbNombre.isSelected()) {
-            if (tipo == "Premium" || tipo == "Ocasionales") {
+            if (tipo == "Premium" || tipo == "Ocasional") {
                 SQL = "select * from tmaeclialq where nom_cliente like '"+valor+"%' AND tipo_cliente like '"+tipo+"'";
-                if (personeria == "Natural" || personeria == "Juridica") {
+                if (personeria == "Natural" || personeria == "Jurídica") {
                     SQL = "select * from tmaeclialq where nom_cliente like '"+valor+"%' AND tipo_cliente like '"+tipo+"' AND per_cliente like '"+personeria+"'";
                 }
-            }else if (personeria == "Natural" || personeria == "Juridica") {
+            }else if (personeria == "Natural" || personeria == "Jurídica") {
                 SQL = "select * from tmaeclialq where nom_cliente like '"+valor+"%' AND per_cliente like '"+personeria+"'";
-                if (tipo == "Premium" || tipo == "Ocasionales") {
+                if (tipo == "Premium" || tipo == "Ocasional") {
                     SQL = "select * from tmaeclialq where nom_cliente like '"+valor+"%' AND tipo_cliente like '"+tipo+"' AND per_cliente like '"+personeria+"'";
                 }
             }else{
@@ -120,7 +120,7 @@ public class tipoCliente extends javax.swing.JPanel {
         jLabel4.setText("Personeria:");
 
         cbBuscarTipo.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        cbBuscarTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Premium", "Ocasionales" }));
+        cbBuscarTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Premium", "Ocasional" }));
         cbBuscarTipo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cbBuscarTipoMouseClicked(evt);
@@ -133,7 +133,7 @@ public class tipoCliente extends javax.swing.JPanel {
         });
 
         cbBuscarPersoneria.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        cbBuscarPersoneria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Natural", "Juridica" }));
+        cbBuscarPersoneria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Natural", "Jurídica" }));
         cbBuscarPersoneria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cbBuscarPersoneriaMouseClicked(evt);
@@ -269,7 +269,7 @@ public class tipoCliente extends javax.swing.JPanel {
                     .addComponent(jScrollPane1)
                     .addGroup(pnlContenedorLayout.createSequentialGroup()
                         .addComponent(jpFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 271, Short.MAX_VALUE)
                         .addGroup(pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rbCedula)
                             .addComponent(rbNombre))
@@ -338,12 +338,12 @@ public class tipoCliente extends javax.swing.JPanel {
         String valor = String.valueOf(txtBuscarCliente.getText());
         String SQL = "";
         if ("Buscar".equals(valor)) {
-            if (tipo == "Premium" || tipo == "Ocasionales") {
+            if (tipo == "Premium" || tipo == "Ocasional") {
                 SQL= "select * from tmaeclialq where tipo_cliente like '"+tipo+"'";
-                if (personeria == "Natural" || personeria == "Juridica") {
+                if (personeria == "Natural" || personeria == "Jurídica") {
                     SQL = "select * from tmaeclialq where tipo_cliente like '"+tipo+"' AND per_cliente like '"+personeria+"'";
                 }
-            }else if (personeria == "Natural" || personeria == "Juridica") {
+            }else if (personeria == "Natural" || personeria == "Jurídica") {
                     SQL = "select * from tmaeclialq where per_cliente like '"+personeria+"'";
             }else{
                 SQL = "select * from tmaeclialq";
@@ -365,12 +365,12 @@ public class tipoCliente extends javax.swing.JPanel {
         String valor = String.valueOf(txtBuscarCliente.getText());
         String SQL = "";
         if ("Buscar".equals(valor)) {
-            if (personeria == "Natural" || personeria == "Juridica") {
+            if (personeria == "Natural" || personeria == "Jurídica") {
                 SQL = "select * from tmaeclialq where per_cliente like '"+personeria+"'";
-                if (tipo == "Premium" || tipo == "Ocasionales") {
+                if (tipo == "Premium" || tipo == "Ocasional") {
                     SQL = "select * from tmaeclialq where tipo_cliente like '"+tipo+"' AND per_cliente like '"+personeria+"'";
                 }
-            }else if (tipo == "Premium" || tipo == "Ocasionales") {
+            }else if (tipo == "Premium" || tipo == "Ocasional") {
                 SQL= "select * from tmaeclialq where tipo_cliente like '"+tipo+"'";
             }else{
                 SQL = "select * from tmaeclialq";
