@@ -20,6 +20,7 @@ public final class pnlCliente extends javax.swing.JPanel {
     PlaceHolder holder;
     ConexionSQL cnn = new ConexionSQL();
     Connection con = cnn.conexion();
+    
    //RSButtonMetro metro = new RSButtonMetro;   
 
     /**
@@ -28,7 +29,8 @@ public final class pnlCliente extends javax.swing.JPanel {
     public pnlCliente() {
        initComponents();
        Placeholder();
-      
+       txtTipoCliente.setSelectedItem("Ocasional");
+       txtTipoCliente.setEnabled(false);
        
     }
 
@@ -206,7 +208,7 @@ public final class pnlCliente extends javax.swing.JPanel {
         });
 
         txtTipoCliente.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        txtTipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de cliente", "Ocasionales", "Premium" }));
+        txtTipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de cliente", "Ocasional", "Premium" }));
         txtTipoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTipoClienteActionPerformed(evt);
@@ -275,7 +277,7 @@ public final class pnlCliente extends javax.swing.JPanel {
         btnActualizar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar_opt.png"))); // NOI18N
-        btnActualizar.setText("Actualizar");
+        btnActualizar.setText("Editar");
         btnActualizar.setBorder(null);
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -369,7 +371,7 @@ public final class pnlCliente extends javax.swing.JPanel {
     }//GEN-LAST:event_txtCorreoActionPerformed
 
     private void txtPersoneriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPersoneriaActionPerformed
-        // TODO add your handling code here:
+   
     }//GEN-LAST:event_txtPersoneriaActionPerformed
 
     private void txtTipoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipoClienteActionPerformed
