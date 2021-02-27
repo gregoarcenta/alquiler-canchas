@@ -3,28 +3,25 @@ package paneles.cliente;
 import conexion.ConexionSQL;
 import com.placeholder.PlaceHolder;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 
 public final class pnlCliente extends javax.swing.JPanel {
-
     PlaceHolder holder;
     ConexionSQL cnn = new ConexionSQL();
     Connection con = cnn.conexion();  
 
-    /**
-     * Creates new form pnlHome
-     */
     public pnlCliente() {
        initComponents();
        Placeholder();
        txtTipoCliente.setSelectedItem("Ocasional");
-       txtTipoCliente.setEnabled(false);
-       
+       txtTipoCliente.setEnabled(false);      
     }
     
     public void Placeholder() {
@@ -43,10 +40,41 @@ public final class pnlCliente extends javax.swing.JPanel {
         txtCorreo.setFont(new Font("Tahoma", Font.BOLD, 18));
     }
     
-     public void mostrarDatos(){
+    public void limpiarCajas(){
         
-        String SQL = "select * from tmaeclialq where cedruc_cliente = '"+txtCedulaRuc.getText()+"' ";
-        
+        txtCedulaRuc.setText("");
+        txtNombre.setText("");
+        txtCelular.setText("");
+        txtConvencional.setText("");
+        txtDireccion.setText("");
+        txtCorreo.setText("");
+        txtPersoneria.setSelectedItem("Personería");
+        txtTipoCliente.setSelectedItem(null);
+    }
+    
+    public boolean existenDatos(String cedula){
+        try {
+            String SQL = "select * from tmaeclialq where cedruc_cliente = '"+cedula+"'";
+            Statement st=con.createStatement();
+            ResultSet rs=st.executeQuery(SQL);
+            while (rs.next()) {                
+                if (rs.getString("cedruc_cliente")!="") {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }catch (HeadlessException | SQLException e) {
+             JOptionPane.showMessageDialog(null, "Hubo un error.\n"
+                                     + "Por favor, ingrese un ruc o cedula válida.", 
+                                        "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        return false;
+    }
+    
+     public void mostrarDatos(String cedula){
+        String SQL = "select * from tmaeclialq where cedruc_cliente = '"+cedula+"' ";
         try {
             Statement st=con.createStatement();
             ResultSet rs=st.executeQuery(SQL);     
@@ -60,13 +88,12 @@ public final class pnlCliente extends javax.swing.JPanel {
             txtPersoneria.setSelectedItem(rs.getString("per_cliente"));
             }
         }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Error de Datos" + e.getMessage());           
+            JOptionPane.showMessageDialog(null, "Hubo un error" + e.getMessage());           
         }     
     }
 
     public void insertarDatos(){
         try{
-            
             String SQL="insert into tmaeclialq (cedruc_cliente, per_cliente, nom_cliente, telcel_cliente, telcon_cliente, dir_cliente, cor_cliente, tipo_cliente, fec_cliente) values (?,?,?,?,?,?,?,?,CURDATE())";
             
             PreparedStatement pst = con.prepareStatement(SQL);
@@ -82,18 +109,16 @@ public final class pnlCliente extends javax.swing.JPanel {
             pst.setString(8, "Ocasional");
             
             pst.execute();
-            
-            JOptionPane.showMessageDialog(null, "Registro Exitoso");
-            
+            JOptionPane.showMessageDialog(null, "Rgistro guardado exitosamente", 
+                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);         
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "No se Registro Nada Confirme!!!!!" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error en el registro " + e.getMessage());
         }
     }
     
     public void actualizarDatos(){
-        try{
-            
+        try{        
             String SQL="update tmaeclialq set per_cliente=?, nom_cliente=?, telcel_cliente=?, telcon_cliente=?, dir_cliente=?, cor_cliente=?, tipo_cliente=? where cedruc_cliente = '"+txtCedulaRuc.getText()+"'";
             
             PreparedStatement pst = con.prepareStatement(SQL);
@@ -109,16 +134,35 @@ public final class pnlCliente extends javax.swing.JPanel {
             
             pst.execute();
             
-            JOptionPane.showMessageDialog(null, "Actualización Exitosa");
-            
+            JOptionPane.showMessageDialog(null, "El registro ha sido actualizado exitosamente", 
+                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);         
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error de Actualización " + e.getMessage());
         }
     }
     
-    
- 
+    public void eliminarDatos(String cedula){
+        int confirmar = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar el registro?");
+        try {
+            if(confirmar == JOptionPane.YES_OPTION){
+                String SQL = "delete from tmaeclialq where cedruc_cliente = ?";
+                PreparedStatement pst = con.prepareStatement(SQL);
+                pst.setString(1, cedula);
+                if(pst.executeUpdate()>0){
+                    JOptionPane.showMessageDialog(null, "El registro ha sido eliminado exitosamente", 
+                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro\n"
+                    + "Inténtelo nuevamente.", "Error en la operación", 
+                    JOptionPane.ERROR_MESSAGE);
+                }
+            }         
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro\n Inténtelo nuevamente.\n"
+                                    + "Error: "+e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -282,11 +326,11 @@ public final class pnlCliente extends javax.swing.JPanel {
                 .addComponent(txtConvencional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(13, 13, 13)
                 .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
                 .addComponent(txtPersoneria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtTipoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,6 +367,11 @@ public final class pnlCliente extends javax.swing.JPanel {
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/borrar_factura.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.setBorder(null);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -411,21 +460,7 @@ public final class pnlCliente extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTipoClienteActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-   
-        
-        String cedula = "";
-        String SQL = "select * from tmaeclialq where cedruc_cliente = '"+txtCedulaRuc.getText()+"' ";
-        try {
-            Statement st=con.createStatement();
-            ResultSet rs=st.executeQuery(SQL);
-            while (rs.next()) {                
-            cedula = rs.getString("cedruc_cliente");
-            }
-        }catch (Exception e){
-        JOptionPane.showMessageDialog(null, "Error de Datos" + e.getMessage());
-        }
-        //System.out.println(cedula);
-        if (cedula == "") {
+        if (!existenDatos(txtCedulaRuc.getText())) {
             insertarDatos();
             limpiarCajas();
         } else {
@@ -433,29 +468,31 @@ public final class pnlCliente extends javax.swing.JPanel {
             limpiarCajas();
         } 
     }//GEN-LAST:event_btnGuardarActionPerformed
-
-    
-    
-    public void limpiarCajas(){
-        
-        txtCedulaRuc.setText("");
-        txtNombre.setText("");
-        txtCelular.setText("");
-        txtConvencional.setText("");
-        txtDireccion.setText("");
-        txtCorreo.setText("");
-        txtPersoneria.setSelectedItem(null);
-        txtTipoCliente.setSelectedItem(null);
-    }
     
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-       mostrarDatos();
-        
+       String cedula = txtCedulaRuc.getText();
+        if("RUC/Cèdula".equals(cedula)){
+            JOptionPane.showMessageDialog(null, "No hay datos para actualizar.\n"
+                                     + "Por favor, ingrese un ruc/cedula en el formulario.",                                      "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        }else if (existenDatos(cedula)) {
+                mostrarDatos(cedula);   
+        } else{
+            JOptionPane.showMessageDialog(null, "El Ruc o cedula ingresado no existe.\n"
+                                     + "Por favor, ingrese un número válido.", 
+                                       "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
-   
-                                                       
-
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        String cedula = txtCedulaRuc.getText();
+        if("RUC/Cèdula".equals(cedula)){
+            JOptionPane.showMessageDialog(null, "No hay datos para eliminar.\n"
+                                     + "Por favor, ingrese un numero de ruc/cédula en el formulario.",                                      "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        }else{
+            eliminarDatos(cedula);
+            limpiarCajas();
+        } 
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser JDFecha;

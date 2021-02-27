@@ -3,11 +3,13 @@ package paneles.cancha;
 import com.placeholder.PlaceHolder;
 import conexion.ConexionSQL;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.util.Calendar;
-import java.util.Date;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 public class pnlCancha extends javax.swing.JPanel {
     PlaceHolder holder;
@@ -29,6 +31,121 @@ public class pnlCancha extends javax.swing.JPanel {
         new PlaceHolder(txtObsCancha, "Observaciones...");
         txtObsCancha.setFont(new Font("Tahoma", Font.BOLD, 14));
     }
+    
+    public void limpiarCajas(){    
+        txtCodCancha.setText("");
+        txtObsCancha.setText("");
+        txtPrecioCancha.setText("");
+        cbEstCancha.setSelectedItem("Libre");
+        cbTipoCancha.setSelectedItem("Seleccionar");
+        cbDesCancha.setSelectedItem(null);
+    }
+    
+    public boolean existenDatos(String codigo){
+        try {
+            String SQL = "select * from tmaecanalq where cod_cancha = '"+codigo+"'";
+            Statement st=con.createStatement();
+            ResultSet rs=st.executeQuery(SQL);
+            while (rs.next()) {                
+                if (rs.getString("cod_cancha")!="") {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }catch (HeadlessException | SQLException e) {
+             JOptionPane.showMessageDialog(null, "El codigo no existe.\n"
+                                     + "Por favor, ingrese un código válido.", 
+                                        "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        return false;
+    }
+    
+    public void mostrarDatos(String codigo){
+        try {
+            String SQL = "select * from tmaecanalq where cod_cancha = '"+codigo+"'";
+            Statement st=con.createStatement();
+            ResultSet rs=st.executeQuery(SQL);  
+            while (rs.next()) {                
+            txtObsCancha.setText(rs.getString("obs_cancha"));
+            txtPrecioCancha.setText(rs.getString("cos_cancha"));            
+            cbTipoCancha.setSelectedItem(rs.getString("tipo_cancha"));
+            cbDesCancha.setSelectedItem(rs.getString("des_cancha"));
+            cbEstCancha.setSelectedItem(rs.getString("est_cancha"));
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Hubo un error " + e.getMessage());           
+        }     
+    }
+     
+    public void insertarDatos(){
+        try{
+            String SQL="insert into tmaecanalq (cod_cancha, tipo_cancha, des_cancha, cos_cancha, est_cancha, obs_cancha) values (?,?,?,?,?,?)";
+            
+            PreparedStatement pst = con.prepareStatement(SQL);
+            
+            pst.setString(1, txtCodCancha.getText());
+            pst.setString(2, String.valueOf(cbTipoCancha.getSelectedItem()));
+            pst.setString(3, String.valueOf(cbDesCancha.getSelectedItem()));
+            pst.setString(4, txtPrecioCancha.getText());
+            pst.setString(5, "Libre");
+            pst.setString(6, txtObsCancha.getText());
+            
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null, "Registro guardado exitosamente", 
+                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error de registro " + e.getMessage());
+        }
+    }
+    
+    public void actualizarDatos(){
+        try{
+            String SQL="update tmaecanalq set tipo_cancha=?, des_cancha=?, cos_cancha=?, est_cancha=?, obs_cancha=? where cod_cancha = '"+txtCodCancha.getText()+"'";
+            
+            PreparedStatement pst = con.prepareStatement(SQL);
+            
+            //pst.setString(1, txtCedulaRuc.getText());
+            pst.setString(1, String.valueOf(cbTipoCancha.getSelectedItem()));
+            pst.setString(2, String.valueOf(cbDesCancha.getSelectedItem()));
+            pst.setString(3, txtPrecioCancha.getText());
+            pst.setString(4, String.valueOf(cbEstCancha.getSelectedItem()));
+            pst.setString(5, txtObsCancha.getText());
+            
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "El registro ha sido actualizado exitosamente", 
+                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);         
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error de Actualización " + e.getMessage());
+        }
+    }
+    
+    public void eliminarDatos(String codigo){
+        int confirmar = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar el registro?");
+        try {
+            if(confirmar == JOptionPane.YES_OPTION){
+                String SQL = "delete from tmaecanalq where cod_cancha = ?";
+                PreparedStatement pst = con.prepareStatement(SQL);
+                pst.setString(1, codigo);
+                if(pst.executeUpdate()>0){
+                    JOptionPane.showMessageDialog(null, "El registro ha sido eliminado exitosamente", 
+                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro\n"
+                    + "Inténtelo nuevamente.", "Error en la operación", 
+                    JOptionPane.ERROR_MESSAGE);
+                }
+            }         
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro\n Inténtelo nuevamente.\n"
+                                    + "Error: "+e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,6 +202,11 @@ public class pnlCancha extends javax.swing.JPanel {
         btnEliminarCancha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/borrar_factura.png"))); // NOI18N
         btnEliminarCancha.setText("Eliminar");
         btnEliminarCancha.setBorder(null);
+        btnEliminarCancha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarCanchaActionPerformed(evt);
+            }
+        });
 
         btnEditarCancha.setBackground(new java.awt.Color(50, 67, 166));
         btnEditarCancha.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -92,6 +214,11 @@ public class pnlCancha extends javax.swing.JPanel {
         btnEditarCancha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar_opt.png"))); // NOI18N
         btnEditarCancha.setText("Editar");
         btnEditarCancha.setBorder(null);
+        btnEditarCancha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarCanchaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -299,7 +426,13 @@ public class pnlCancha extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCanchaActionPerformed
-
+        if (!existenDatos(txtCodCancha.getText())) {
+            insertarDatos();
+            limpiarCajas();
+        } else {
+            actualizarDatos();
+            limpiarCajas();
+        } 
     }//GEN-LAST:event_btnGuardarCanchaActionPerformed
 
     private void txtCodCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodCanchaActionPerformed
@@ -336,6 +469,31 @@ public class pnlCancha extends javax.swing.JPanel {
             cbDesCancha.addItem("Madera");
         }
     }//GEN-LAST:event_cbTipoCanchaActionPerformed
+
+    private void btnEditarCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCanchaActionPerformed
+        String codigo = txtCodCancha.getText();
+        if("Código".equals(codigo)){
+            JOptionPane.showMessageDialog(null, "No hay datos para actualizar.\n"
+                                     + "Por favor, ingrese un código de cancha en el formulario.",                                      "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        }else if (existenDatos(codigo)) {
+                mostrarDatos(codigo);   
+        } else{
+            JOptionPane.showMessageDialog(null, "El código no existe.\n"
+                                     + "Por favor, ingrese un código válido.", 
+                                       "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditarCanchaActionPerformed
+
+    private void btnEliminarCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCanchaActionPerformed
+        String codigo = txtCodCancha.getText();
+        if("Código".equals(codigo)){
+            JOptionPane.showMessageDialog(null, "No hay datos para eliminar.\n"
+                                     + "Por favor, ingrese un código de cancha en el formulario.",                                      "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        }else{
+            eliminarDatos(codigo);
+            limpiarCajas();
+        } 
+    }//GEN-LAST:event_btnEliminarCanchaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
