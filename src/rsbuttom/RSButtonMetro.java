@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rsbuttom;
 
-/**
- *
- * @author Rojeru San
- */
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -20,9 +11,6 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JButton;
 import javax.swing.border.Border;
 
-/**
-* @author Rojeru San
- */
 public class RSButtonMetro extends JButton implements MouseListener, MouseMotionListener {
     /**
      * Color para el fondo del boton

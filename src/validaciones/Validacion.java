@@ -65,4 +65,24 @@ public class Validacion {
        }
     }
     
+    public boolean validateCodigo(String convencional){
+        Pattern pat = Pattern.compile("^\\d{4,9}$");
+        Matcher mat = pat.matcher(convencional);                                                                           
+        if(mat.matches()) {
+            return true;
+        }else{
+            return false;    
+       }
+    }
+    
+    public boolean validatePrecio(String convencional){
+        Pattern pat = Pattern.compile("^[0-9]+\\.[0-9]{1,2}$");
+        Matcher mat = pat.matcher(convencional);                                                                           
+        if(mat.matches()) {
+            return true;
+        }else{
+            return false;    
+       }
+    }
+    
 }

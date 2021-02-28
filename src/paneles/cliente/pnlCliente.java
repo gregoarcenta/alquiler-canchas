@@ -1,7 +1,13 @@
 package paneles.cliente;
 
+import alertas.AlertError;
+import alertas.AlertInformation;
+import alertas.AlertSuccess;
+import alertas.AlertWarningDelete;
+import principal.Principal;
 import conexion.ConexionSQL;
 import com.placeholder.PlaceHolder;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.sql.Connection;
@@ -88,7 +94,7 @@ public final class pnlCliente extends javax.swing.JPanel {
             ResultSet rs=st.executeQuery(SQL);     
             while (rs.next()) {                
             txtNombre.setText(rs.getString("nom_cliente"));
-            txtCelular.setText(rs.getString("telcel_cliente"));
+            txtCelular.setText("0"+rs.getString("telcel_cliente"));
             txtConvencional.setText(rs.getString("telcon_cliente"));
             txtDireccion.setText(rs.getString("dir_cliente"));
             txtCorreo.setText(rs.getString("cor_cliente"));             
@@ -117,8 +123,7 @@ public final class pnlCliente extends javax.swing.JPanel {
             pst.setString(8, "Ocasional");
             
             pst.execute();
-            JOptionPane.showMessageDialog(null, "Rgistro guardado exitosamente", 
-                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);         
+            new AlertSuccess(new Principal(), true).setVisible(true);         
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error en el registro " + e.getMessage());
@@ -141,35 +146,19 @@ public final class pnlCliente extends javax.swing.JPanel {
             pst.setString(7, String.valueOf(txtTipoCliente.getSelectedItem()));
             
             pst.execute();
-            
-            JOptionPane.showMessageDialog(null, "El registro ha sido actualizado exitosamente", 
-                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);         
+            AlertSuccess a = new AlertSuccess(new Principal(), true);
+            a.titulo.setText("Registro actualizado exitosamente!");
+            a.setVisible(true);       
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error de Actualización " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error en la Actualización " + e.getMessage());
         }
     }
     
     public void eliminarDatos(String cedula){
-        int confirmar = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar el registro?");
-        try {
-            if(confirmar == JOptionPane.YES_OPTION){
-                String SQL = "delete from tmaeclialq where cedruc_cliente = ?";
-                PreparedStatement pst = con.prepareStatement(SQL);
-                pst.setString(1, cedula);
-                if(pst.executeUpdate()>0){
-                    JOptionPane.showMessageDialog(null, "El registro ha sido eliminado exitosamente", 
-                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
-                }else{
-                    JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro\n"
-                    + "Inténtelo nuevamente.", "Error en la operación", 
-                    JOptionPane.ERROR_MESSAGE);
-                }
-            }         
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro\n Inténtelo nuevamente.\n"
-                                    + "Error: "+e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-        }
+        AlertWarningDelete w = new AlertWarningDelete(new Principal(), true, "tmaeclialq", cedula);
+        w.titulo.setText("Está seguro que desea eliminar el registro?");
+        w.setVisible(true);
     }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -371,31 +360,31 @@ public final class pnlCliente extends javax.swing.JPanel {
             .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(txtCedulaRuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
-                .addComponent(jlCedula)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlCedula)
+                .addGap(18, 18, 18)
                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlName)
-                .addGap(8, 8, 8)
+                .addGap(18, 18, 18)
                 .addComponent(txtConvencional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlConvencional)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jlCelular)
-                .addGap(5, 5, 5)
-                .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jlDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlCelular)
+                .addGap(18, 18, 18)
+                .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlemail)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         btnGuardar.setBackground(new java.awt.Color(99, 242, 135));
@@ -502,7 +491,7 @@ public final class pnlCliente extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PnlConsultaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -519,7 +508,7 @@ public final class pnlCliente extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PnlConsultaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -567,31 +556,31 @@ public final class pnlCliente extends javax.swing.JPanel {
                 limpiarCajas();
             } 
         }else{
-             JOptionPane.showMessageDialog(null, "Los datos ingresados no son los correctos.\n"
-                                     + "Por favor, intente nuevamente.", 
-                                       "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            AlertError a = new AlertError(new Principal(), true);
+            a.titulo.setText("Por favor, rellena el formulario correctamente");
+            a.setVisible(true);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
     
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
        String cedula = txtCedulaRuc.getText();
-        if("RUC/Cèdula".equals(cedula)){
-            JOptionPane.showMessageDialog(null, "No hay datos para actualizar.\n"
-                                     + "Por favor, ingrese un ruc/cedula en el formulario.",                                      "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        if("RUC/Cèdula".equals(cedula) || "".equals(cedula)){
+            new AlertError(new Principal(), true).setVisible(true);
         }else if (existenDatos(cedula)) {
                 mostrarDatos(cedula);   
         } else{
-            JOptionPane.showMessageDialog(null, "El Ruc o cedula ingresado no existe.\n"
-                                     + "Por favor, ingrese un número válido.", 
-                                       "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            AlertInformation a = new AlertInformation(new Principal(), true);
+            a.titulo.setText("Ruc o cedula ingresado no valido");
+            a.titulo2.setText("Inténtelo nuevamente!");
+            a.titulo2.setForeground(Color.BLACK);
+            a.setVisible(true);
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String cedula = txtCedulaRuc.getText();
-        if("RUC/Cèdula".equals(cedula)){
-            JOptionPane.showMessageDialog(null, "No hay datos para eliminar.\n"
-                                     + "Por favor, ingrese un numero de ruc/cédula en el formulario.",                                      "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        if("RUC/Cèdula".equals(cedula) || "".equals(cedula)){
+            new AlertError(new Principal(), true).setVisible(true);
         }else{
             eliminarDatos(cedula);
             limpiarCajas();

@@ -1,31 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package paneles.buscar;
 
-import com.placeholder.PlaceHolder;
-import java.awt.Font;
-import javax.swing.JOptionPane;
-import paneles.CambiaPanel;
 import paneles.buscar.tipos.tipoCancha;
 import paneles.buscar.tipos.tipoCliente;
 import paneles.buscar.tipos.tipoFactura;
 
-/**
- *
- * @author RojeruSan
- */
 public class pnlBuscar extends javax.swing.JPanel {
     
     tipoCancha pnlCancha = new tipoCancha();
     tipoCliente pnlCliente = new tipoCliente();
     tipoFactura pnlFactura = new tipoFactura();
 
-    /**
-     * Creates new form pnlHome
-     */
     public pnlBuscar() {
         initComponents();
         pnlContenedor.add(pnlCliente);

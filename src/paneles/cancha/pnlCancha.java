@@ -1,7 +1,12 @@
 package paneles.cancha;
 
+import alertas.AlertError;
+import alertas.AlertInformation;
+import alertas.AlertSuccess;
+import alertas.AlertWarningDelete;
 import com.placeholder.PlaceHolder;
 import conexion.ConexionSQL;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.sql.Connection;
@@ -10,17 +15,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import principal.Principal;
+import validaciones.Validacion;
 
 public class pnlCancha extends javax.swing.JPanel {
     PlaceHolder holder;
     ConexionSQL c = new ConexionSQL();
     Connection con = c.conexion();
+    Validacion v = new Validacion();
 
     public pnlCancha() {
         initComponents();
         Placeholder();
         cbEstCancha.setSelectedItem("Libre");
         cbEstCancha.setEnabled(false);
+        jlCodigo.setVisible(false);
+        jlprecio.setVisible(false);
     }
     
     public void Placeholder() {
@@ -94,8 +104,7 @@ public class pnlCancha extends javax.swing.JPanel {
             
             pst.execute();
             
-            JOptionPane.showMessageDialog(null, "Registro guardado exitosamente", 
-                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+            new AlertSuccess(new Principal(), true).setVisible(true); 
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error de registro " + e.getMessage());
@@ -116,8 +125,9 @@ public class pnlCancha extends javax.swing.JPanel {
             pst.setString(5, txtObsCancha.getText());
             
             pst.execute();
-            JOptionPane.showMessageDialog(null, "El registro ha sido actualizado exitosamente", 
-                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);         
+            AlertSuccess a = new AlertSuccess(new Principal(), true);
+            a.titulo.setText("Registro actualizado exitosamente!");
+            a.setVisible(true);         
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error de Actualización " + e.getMessage());
@@ -125,25 +135,9 @@ public class pnlCancha extends javax.swing.JPanel {
     }
     
     public void eliminarDatos(String codigo){
-        int confirmar = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar el registro?");
-        try {
-            if(confirmar == JOptionPane.YES_OPTION){
-                String SQL = "delete from tmaecanalq where cod_cancha = ?";
-                PreparedStatement pst = con.prepareStatement(SQL);
-                pst.setString(1, codigo);
-                if(pst.executeUpdate()>0){
-                    JOptionPane.showMessageDialog(null, "El registro ha sido eliminado exitosamente", 
-                                              "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
-                }else{
-                    JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro\n"
-                    + "Inténtelo nuevamente.", "Error en la operación", 
-                    JOptionPane.ERROR_MESSAGE);
-                }
-            }         
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro\n Inténtelo nuevamente.\n"
-                                    + "Error: "+e, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-        }
+        AlertWarningDelete w = new AlertWarningDelete(new Principal(), true, "tmaecanalq", codigo);
+        w.titulo.setText("Está seguro que desea eliminar el registro?");
+        w.setVisible(true);
     }
     
 
@@ -173,6 +167,8 @@ public class pnlCancha extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         cbTipoCancha = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        jlCodigo = new javax.swing.JLabel();
+        jlprecio = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -262,6 +258,11 @@ public class pnlCancha extends javax.swing.JPanel {
                 txtCodCanchaActionPerformed(evt);
             }
         });
+        txtCodCancha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodCanchaKeyReleased(evt);
+            }
+        });
 
         txtPrecioCancha.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
         txtPrecioCancha.setForeground(new java.awt.Color(51, 51, 51));
@@ -272,6 +273,11 @@ public class pnlCancha extends javax.swing.JPanel {
         txtPrecioCancha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPrecioCanchaActionPerformed(evt);
+            }
+        });
+        txtPrecioCancha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPrecioCanchaKeyReleased(evt);
             }
         });
 
@@ -310,11 +316,10 @@ public class pnlCancha extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbDesCancha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(cbDesCancha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -352,22 +357,29 @@ public class pnlCancha extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jlCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        jlCodigo.setForeground(new java.awt.Color(255, 0, 0));
+        jlCodigo.setText("El codigo solo puede contener numeros");
+
+        jlprecio.setBackground(new java.awt.Color(255, 255, 255));
+        jlprecio.setForeground(new java.awt.Color(255, 0, 0));
+        jlprecio.setText("El precio solo puede contener numeros enteros y decimales");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(139, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtPrecioCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCodCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCodCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlprecio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addComponent(cbEstCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(118, Short.MAX_VALUE))
@@ -378,8 +390,8 @@ public class pnlCancha extends javax.swing.JPanel {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -393,9 +405,13 @@ public class pnlCancha extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addComponent(txtCodCancha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)
-                        .addComponent(txtPrecioCancha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlCodigo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtPrecioCancha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlprecio)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -426,13 +442,19 @@ public class pnlCancha extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCanchaActionPerformed
-        if (!existenDatos(txtCodCancha.getText())) {
+        if(v.validateCodigo(txtCodCancha.getText()) && v.validatePrecio(txtPrecioCancha.getText()) && cbTipoCancha.getSelectedItem() != "Seleccionar" && cbTipoCancha.getSelectedItem() != null){
+            if (!existenDatos(txtCodCancha.getText())) {
             insertarDatos();
             limpiarCajas();
         } else {
             actualizarDatos();
             limpiarCajas();
         } 
+        }else{
+            AlertError a = new AlertError(new Principal(), true);
+            a.titulo.setText("Por favor, rellena el formulario correctamente");
+            a.setVisible(true);
+        }
     }//GEN-LAST:event_btnGuardarCanchaActionPerformed
 
     private void txtCodCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodCanchaActionPerformed
@@ -472,28 +494,48 @@ public class pnlCancha extends javax.swing.JPanel {
 
     private void btnEditarCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCanchaActionPerformed
         String codigo = txtCodCancha.getText();
-        if("Código".equals(codigo)){
-            JOptionPane.showMessageDialog(null, "No hay datos para actualizar.\n"
-                                     + "Por favor, ingrese un código de cancha en el formulario.",                                      "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        if("Código".equals(codigo) || "".equals(codigo)){
+            AlertInformation a = new AlertInformation(new Principal(), true);
+            a.titulo.setText("Por favor, ingresa un código valido");
+            a.setVisible(true);
         }else if (existenDatos(codigo)) {
                 mostrarDatos(codigo);   
         } else{
-            JOptionPane.showMessageDialog(null, "El código no existe.\n"
-                                     + "Por favor, ingrese un código válido.", 
-                                       "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            AlertInformation a = new AlertInformation(new Principal(), true);
+            a.titulo.setText("El código ingresado no es valido");
+            a.titulo2.setText("Inténtelo nuevamente!");
+            a.titulo2.setForeground(Color.BLACK);
+            a.setVisible(true);
         }
     }//GEN-LAST:event_btnEditarCanchaActionPerformed
 
     private void btnEliminarCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCanchaActionPerformed
         String codigo = txtCodCancha.getText();
-        if("Código".equals(codigo)){
-            JOptionPane.showMessageDialog(null, "No hay datos para eliminar.\n"
-                                     + "Por favor, ingrese un código de cancha en el formulario.",                                      "Error en la operación", JOptionPane.ERROR_MESSAGE);
+        if("Código".equals(codigo) || "".equals(codigo)){
+           AlertError a = new AlertError(new Principal(), true);
+           a.titulo.setText("Por favor, ingresa un código valido");
+           a.setVisible(true);
         }else{
             eliminarDatos(codigo);
             limpiarCajas();
         } 
     }//GEN-LAST:event_btnEliminarCanchaActionPerformed
+
+    private void txtCodCanchaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodCanchaKeyReleased
+        if(v.validateCodigo(txtCodCancha.getText())){
+            jlCodigo.setVisible(false);
+        }else{
+            jlCodigo.setVisible(true);
+        }
+    }//GEN-LAST:event_txtCodCanchaKeyReleased
+
+    private void txtPrecioCanchaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioCanchaKeyReleased
+        if(v.validatePrecio(txtPrecioCancha.getText())){
+            jlprecio.setVisible(false);
+        }else{
+            jlprecio.setVisible(true);
+        }
+    }//GEN-LAST:event_txtPrecioCanchaKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -511,6 +553,8 @@ public class pnlCancha extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlCodigo;
+    private javax.swing.JLabel jlprecio;
     private app.bolivia.swing.JCTextField txtCodCancha;
     private javax.swing.JTextArea txtObsCancha;
     private app.bolivia.swing.JCTextField txtPrecioCancha;

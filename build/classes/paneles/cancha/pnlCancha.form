@@ -180,20 +180,17 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace pref="139" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace pref="25" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="txtPrecioCancha" min="-2" pref="150" max="-2" attributes="0"/>
                       <Component id="txtCodCancha" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="jlprecio" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jlCodigo" alignment="0" max="32767" attributes="0"/>
                   </Group>
+                  <EmptySpace pref="39" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace pref="64" max="32767" attributes="0"/>
-                          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jPanel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jPanel4" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="69" max="32767" attributes="0"/>
                   <Component id="cbEstCancha" min="-2" pref="150" max="-2" attributes="0"/>
@@ -208,8 +205,8 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -221,17 +218,21 @@
                                   <Component id="cbEstCancha" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                           <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                           <Component id="txtCodCancha" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jlCodigo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="txtPrecioCancha" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jlprecio" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="69" max="32767" attributes="0"/>
+                  <EmptySpace pref="68" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="106" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               </Group>
@@ -284,6 +285,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodCanchaActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCodCanchaKeyReleased"/>
           </Events>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="txtPrecioCancha">
@@ -311,6 +313,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPrecioCanchaActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPrecioCanchaKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbEstCancha">
@@ -345,7 +348,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cbDesCancha" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
+                          <Component id="cbDesCancha" min="-2" pref="175" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -355,11 +358,10 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="23" max="32767" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cbDesCancha" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -462,6 +464,28 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JLabel" name="jlCodigo">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="El codigo solo puede contener numeros"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jlprecio">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="El precio solo puede contener numeros enteros y decimales"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
