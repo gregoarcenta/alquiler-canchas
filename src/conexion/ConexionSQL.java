@@ -11,7 +11,7 @@ public class ConexionSQL {
     public Connection conexion(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conectar = (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/alquiler_canchas", "root", "");
+            conectar = (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3308/alquiler_canchas", "root", "");
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Error de conexion" + e.getMessage());
         }

@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class tipoCliente extends javax.swing.JPanel {
-    PlaceHolder holder;
     ConexionSQL c = new ConexionSQL();
     Connection con = c.conexion();
     
@@ -24,7 +23,8 @@ public class tipoCliente extends javax.swing.JPanel {
     }
     
     public void Placeholder() {
-        new PlaceHolder(txtBuscarCliente, "Buscar");
+        txtBuscarCliente.setPlaceholder("Buscar");
+        txtBuscarCliente.setPhColor(new java.awt.Color(102, 102, 102));
         txtBuscarCliente.setFont(new Font("Tahoma", Font.BOLD, 14));
     }
     

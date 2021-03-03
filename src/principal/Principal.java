@@ -10,16 +10,32 @@ import javax.swing.UnsupportedLookAndFeelException;
 import paneles.CambiaPanel;
 
 public class Principal extends javax.swing.JFrame {
-
+    static String rol;
+    static String nombre;
     int x, y;
     
-    public Principal() {
+    public Principal(){}
+    
+    public Principal(String rol, String nombre) {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setLocationRelativeTo(this);
         this.uno.setSelected(true);
-
+ 
+        this.rol = rol;
+        this.nombre = nombre;
+        rol();
+        
         new CambiaPanel(pnlPrincipal, new paneles.buscar.pnlBuscar());
+    }
+    
+    public void rol(){
+        String rol = this.rol;
+        jlRol.setText(rol);
+        jlNombre.setText(nombre);
+        if (rol.equals("Usuario")) {
+            cinco.setVisible(false);
+        }
     }
 
     /**
@@ -36,8 +52,8 @@ public class Principal extends javax.swing.JFrame {
         pnlMenu = new javax.swing.JPanel();
         uno = new rsbuttom.RSButtonMetro();
         jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        labelTipo = new javax.swing.JLabel();
+        jlNombre = new javax.swing.JLabel();
+        jlRol = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         tres = new rsbuttom.RSButtonMetro();
         dos = new rsbuttom.RSButtonMetro();
@@ -85,13 +101,13 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(51, 51, 51));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Juanito");
+        jlNombre.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jlNombre.setForeground(new java.awt.Color(255, 255, 255));
+        jlNombre.setText("Juanito");
 
-        labelTipo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        labelTipo.setForeground(new java.awt.Color(255, 255, 255));
-        labelTipo.setText("administrador");
+        jlRol.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jlRol.setForeground(new java.awt.Color(255, 255, 255));
+        jlRol.setText("administrador");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user.png"))); // NOI18N
 
@@ -104,8 +120,8 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelTipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jlNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -117,9 +133,9 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(jLabel1)
+                        .addComponent(jlNombre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelTipo)))
+                        .addComponent(jlRol)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -270,6 +286,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(tres, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(cuatro, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(cinco, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
                 .addComponent(ocho, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -353,7 +370,7 @@ public class Principal extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(null);
 
-        pnlPrincipal.setBackground(new java.awt.Color(255, 255, 255));
+        pnlPrincipal.setBackground(new java.awt.Color(153, 153, 153));
         pnlPrincipal.setLayout(new javax.swing.BoxLayout(pnlPrincipal, javax.swing.BoxLayout.LINE_AXIS));
         jScrollPane1.setViewportView(pnlPrincipal);
 
@@ -365,9 +382,7 @@ public class Principal extends javax.swing.JFrame {
         );
         pnlCentroLayout.setVerticalGroup(
             pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCentroLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -485,6 +500,9 @@ public class Principal extends javax.swing.JFrame {
             this.ocho.setColorHover(new Color(204,204,204));
             this.ocho.setColorPressed(new Color(204,204,204));
         }
+        
+        this.dispose();
+        new inicial().setVisible(true);
     }//GEN-LAST:event_ochoActionPerformed
 
     private void ochoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ochoMousePressed
@@ -581,7 +599,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_dosMousePressed
 
     private void tresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tresActionPerformed
-        new CambiaPanel(pnlPrincipal, new paneles.cliente.pnlCliente());
+        new CambiaPanel(pnlPrincipal, new paneles.cliente.pnlCliente(this.rol));
         if(this.tres.isSelected()){
             this.tres.setColorNormal(new Color(204,204,204));
             this.tres.setColorHover(new Color(204,204,204));
@@ -697,7 +715,7 @@ public class Principal extends javax.swing.JFrame {
             public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    new Principal().setVisible(true);
+                    new Principal(rol, nombre).setVisible(true);
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                     Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -710,7 +728,6 @@ public class Principal extends javax.swing.JFrame {
     private rsbuttom.RSButtonMetro cuatro;
     private rsbuttom.RSButtonMetro dos;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -718,7 +735,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel labelTipo;
+    private javax.swing.JLabel jlNombre;
+    private javax.swing.JLabel jlRol;
     private rsbuttom.RSButtonMetro ocho;
     private javax.swing.JPanel pnlCentro;
     private javax.swing.JPanel pnlMenu;

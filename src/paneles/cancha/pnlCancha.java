@@ -19,7 +19,6 @@ import principal.Principal;
 import validaciones.Validacion;
 
 public class pnlCancha extends javax.swing.JPanel {
-    PlaceHolder holder;
     ConexionSQL c = new ConexionSQL();
     Connection con = c.conexion();
     Validacion v = new Validacion();
@@ -34,10 +33,14 @@ public class pnlCancha extends javax.swing.JPanel {
     }
     
     public void Placeholder() {
-        new PlaceHolder(txtCodCancha, "Código");
-        txtCodCancha.setFont(new Font("Tahoma", Font.BOLD, 14));
-        new PlaceHolder(txtPrecioCancha, "Precio por hora");
-        txtPrecioCancha.setFont(new Font("Tahoma", Font.BOLD, 14));
+        txtCodCancha.setPlaceholder("Código");
+        txtCodCancha.setPhColor(new java.awt.Color(102, 102, 102));
+        txtCodCancha.setFont(new Font("Tahoma", Font.BOLD, 18));
+        
+        txtPrecioCancha.setPlaceholder("Precio por hora");
+        txtPrecioCancha.setPhColor(new java.awt.Color(102, 102, 102));
+        txtPrecioCancha.setFont(new Font("Tahoma", Font.BOLD, 18));
+        
         new PlaceHolder(txtObsCancha, "Observaciones...");
         txtObsCancha.setFont(new Font("Tahoma", Font.BOLD, 14));
     }
@@ -372,10 +375,10 @@ public class pnlCancha extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(25, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtPrecioCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCodCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlprecio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jlCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCodCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecioCancha, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

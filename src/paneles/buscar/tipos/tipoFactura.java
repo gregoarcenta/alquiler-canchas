@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package paneles.buscar.tipos;
 
-import com.placeholder.PlaceHolder;
 import conexion.ConexionSQL;
 import java.awt.Font;
 import java.sql.Connection;
@@ -13,12 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
 public class tipoFactura extends javax.swing.JPanel {
     ConexionSQL c = new ConexionSQL();
     Connection con = c.conexion();
-    PlaceHolder holder;
     /**
      * Creates new form tipoFactura
      */
@@ -39,7 +28,8 @@ public class tipoFactura extends javax.swing.JPanel {
     }
     
     public void Placeholder() {
-        holder = new PlaceHolder(txtBuscarAlquiler, "1351430754 / 14:00");
+        txtBuscarAlquiler.setPlaceholder("1351430754 / 14:00");
+        txtBuscarAlquiler.setPhColor(new java.awt.Color(102, 102, 102));
         txtBuscarAlquiler.setFont(new Font("Tahoma", Font.BOLD, 14));
     }
 

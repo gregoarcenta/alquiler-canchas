@@ -182,10 +182,10 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace pref="25" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="txtPrecioCancha" min="-2" pref="150" max="-2" attributes="0"/>
-                      <Component id="txtCodCancha" min="-2" pref="150" max="-2" attributes="0"/>
                       <Component id="jlprecio" alignment="0" max="32767" attributes="0"/>
                       <Component id="jlCodigo" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtCodCancha" alignment="0" min="-2" pref="169" max="-2" attributes="0"/>
+                      <Component id="txtPrecioCancha" alignment="0" min="-2" pref="168" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="39" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">

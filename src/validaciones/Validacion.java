@@ -76,7 +76,7 @@ public class Validacion {
     }
     
     public boolean validatePrecio(String convencional){
-        Pattern pat = Pattern.compile("^[0-9]+\\.[0-9]{1,2}$");
+        Pattern pat = Pattern.compile("^[0-9]{1,3}|([0-9]+\\.[0-9]{1,2})$");
         Matcher mat = pat.matcher(convencional);                                                                           
         if(mat.matches()) {
             return true;

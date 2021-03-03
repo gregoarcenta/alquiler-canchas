@@ -6,7 +6,6 @@ import alertas.AlertSuccess;
 import alertas.AlertWarningDelete;
 import principal.Principal;
 import conexion.ConexionSQL;
-import com.placeholder.PlaceHolder;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
@@ -20,14 +19,16 @@ import validaciones.Validacion;
 
 
 public final class pnlCliente extends javax.swing.JPanel {
-    PlaceHolder holder;
+    String prevTipo;
+    String rol;
     ConexionSQL cnn = new ConexionSQL();
     Connection con = cnn.conexion();
     Validacion v = new Validacion();
 
-    public pnlCliente() {
+    public pnlCliente(String rol) {
        initComponents();
        Placeholder();
+       this.rol = rol;
        txtTipoCliente.setSelectedItem("Ocasional");
        txtTipoCliente.setEnabled(false);  
        jlCedula.setVisible(false);
@@ -39,19 +40,32 @@ public final class pnlCliente extends javax.swing.JPanel {
     }
     
     public void Placeholder() {
-        holder = new PlaceHolder(txtCedulaRuc, "RUC/Cèdula");
+        //holder = new PlaceHolder(txtCedulaRuc, "RUC/Cèdula");
+        txtCedulaRuc.setPlaceholder("RUC/Cédula");
+        txtCedulaRuc.setPhColor(new java.awt.Color(102, 102, 102));
         txtCedulaRuc.setFont(new Font("Tahoma", Font.BOLD, 18));
-        add(txtCedulaRuc);
-        holder = new PlaceHolder(txtNombre, "Nombre del representante");
+        
+        txtNombre.setPlaceholder("Nombre del representante");
+        txtNombre.setPhColor(new java.awt.Color(102, 102, 102));
         txtNombre.setFont(new Font("Tahoma", Font.BOLD, 18));
-        holder = new PlaceHolder(txtConvencional, "Nùmero Tèlefono Convencional");
+        
+        txtConvencional.setPlaceholder("Número Télefono Convencional");
+        txtConvencional.setPhColor(new java.awt.Color(102, 102, 102));
         txtConvencional.setFont(new Font("Tahoma", Font.BOLD, 18));
-        holder = new PlaceHolder(txtCelular, "Nùmero Tèlefono Celular");
+        
+        txtCelular.setPlaceholder("Nùmero Télefono Celular");
+        txtCelular.setPhColor(new java.awt.Color(102, 102, 102));
         txtCelular.setFont(new Font("Tahoma", Font.BOLD, 18));
-        holder = new PlaceHolder(txtDireccion, "Direcciòn");
+        
+        txtDireccion.setPlaceholder("Dirección");
+        txtDireccion.setPhColor(new java.awt.Color(102, 102, 102));
         txtDireccion.setFont(new Font("Tahoma", Font.BOLD, 18));
-        holder = new PlaceHolder(txtCorreo, "Correo");
+        
+        txtCorreo.setPlaceholder("Correo Electrónico");
+        txtCorreo.setPhColor(new java.awt.Color(102, 102, 102));
         txtCorreo.setFont(new Font("Tahoma", Font.BOLD, 18));
+        
+        
     }
     
     public void limpiarCajas(){
@@ -63,7 +77,7 @@ public final class pnlCliente extends javax.swing.JPanel {
         txtDireccion.setText("");
         txtCorreo.setText("");
         txtPersoneria.setSelectedItem("Personería");
-        txtTipoCliente.setSelectedItem(null);
+        txtTipoCliente.setSelectedItem("Ocasional");
     }
     
     public boolean existenDatos(String cedula){
@@ -87,19 +101,40 @@ public final class pnlCliente extends javax.swing.JPanel {
         return false;
     }
     
+    public String getTipo(String cedula){
+        String tipo = "";
+        try {
+            String SQL = "select tipo_cliente from tmaeclialq where cedruc_cliente = '"+cedula+"'";
+            Statement st=con.createStatement();
+            ResultSet rs=st.executeQuery(SQL);
+            while (rs.next()) {                
+                tipo = rs.getString("tipo_cliente");
+                    
+            }
+        }catch (HeadlessException | SQLException e) {
+             JOptionPane.showMessageDialog(null, "Hubo un error.\n" + e, 
+                                        "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        return tipo;
+    }
+    
      public void mostrarDatos(String cedula){
         String SQL = "select * from tmaeclialq where cedruc_cliente = '"+cedula+"' ";
         try {
             Statement st=con.createStatement();
             ResultSet rs=st.executeQuery(SQL);     
             while (rs.next()) {                
-            txtNombre.setText(rs.getString("nom_cliente"));
-            txtCelular.setText("0"+rs.getString("telcel_cliente"));
-            txtConvencional.setText(rs.getString("telcon_cliente"));
-            txtDireccion.setText(rs.getString("dir_cliente"));
-            txtCorreo.setText(rs.getString("cor_cliente"));             
-            txtTipoCliente.setSelectedItem(rs.getString("tipo_cliente"));
-            txtPersoneria.setSelectedItem(rs.getString("per_cliente"));
+                txtNombre.setText(rs.getString("nom_cliente"));
+                txtCelular.setText("0"+rs.getString("telcel_cliente"));
+                txtConvencional.setText(rs.getString("telcon_cliente"));
+                txtDireccion.setText(rs.getString("dir_cliente"));
+                txtCorreo.setText(rs.getString("cor_cliente"));             
+                txtPersoneria.setSelectedItem(rs.getString("per_cliente"));
+                txtTipoCliente.setSelectedItem(rs.getString("tipo_cliente"));
+                this.prevTipo = rs.getString("tipo_cliente");
+                if (isAdmin(rol)) {
+                    txtTipoCliente.setEnabled(true);
+                }
             }
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Hubo un error" + e.getMessage());           
@@ -130,9 +165,20 @@ public final class pnlCliente extends javax.swing.JPanel {
         }
     }
     
-    public void actualizarDatos(){
-        try{        
-            String SQL="update tmaeclialq set per_cliente=?, nom_cliente=?, telcel_cliente=?, telcon_cliente=?, dir_cliente=?, cor_cliente=?, tipo_cliente=? where cedruc_cliente = '"+txtCedulaRuc.getText()+"'";
+    public void actualizarDatos(String cedula){
+        try{
+            if (isAdmin(rol) == false) {
+                if (!getTipo(cedula).equals(txtTipoCliente.getSelectedItem())) {
+                    AlertError a = new AlertError(new Principal(), true);
+                    a.titulo.setText("No tienes permisos para cambiar");
+                    a.titulo2.setText("el tipo de cliente");
+                    a.titulo2.setForeground(Color.BLACK);
+                    a.setVisible(true);
+                    return; 
+                }               
+            }
+            
+            String SQL="update tmaeclialq set per_cliente=?, nom_cliente=?, telcel_cliente=?, telcon_cliente=?, dir_cliente=?, cor_cliente=?, tipo_cliente=? where cedruc_cliente = '"+ cedula +"'";
             
             PreparedStatement pst = con.prepareStatement(SQL);
             
@@ -159,6 +205,13 @@ public final class pnlCliente extends javax.swing.JPanel {
         AlertWarningDelete w = new AlertWarningDelete(new Principal(), true, "tmaeclialq", cedula);
         w.titulo.setText("Está seguro que desea eliminar el registro?");
         w.setVisible(true);
+    }
+    
+    public boolean isAdmin(String rol){
+        if (rol.equals("Administrador")) {
+            return true;
+        }
+        return false;
     }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -205,8 +258,8 @@ public final class pnlCliente extends javax.swing.JPanel {
         txtCedulaRuc.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
         txtCedulaRuc.setForeground(new java.awt.Color(51, 51, 51));
         txtCedulaRuc.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txtCedulaRuc.setPhColor(new java.awt.Color(255, 255, 255));
-        txtCedulaRuc.setPlaceholder("SEARCH");
+        txtCedulaRuc.setPhColor(new java.awt.Color(204, 204, 204));
+        txtCedulaRuc.setPlaceholder("RUC/Cédula");
         txtCedulaRuc.setSelectedTextColor(new java.awt.Color(51, 51, 51));
         txtCedulaRuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -336,55 +389,58 @@ public final class pnlCliente extends javax.swing.JPanel {
         PnlConsultaFactura.setLayout(PnlConsultaFacturaLayout);
         PnlConsultaFacturaLayout.setHorizontalGroup(
             PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
-                .addGap(0, 24, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlConsultaFacturaLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
                 .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jlCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jlName, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jlConvencional, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jlCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jlDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jlemail, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtConvencional, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCedulaRuc, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                    .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addContainerGap(146, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlConsultaFacturaLayout.createSequentialGroup()
+                        .addGroup(PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jlemail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCorreo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlDireccion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlCelular, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCelular, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlConvencional, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtConvencional, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlCedula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCedulaRuc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(60, 60, 60))))
         );
         PnlConsultaFacturaLayout.setVerticalGroup(
             PnlConsultaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PnlConsultaFacturaLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCedulaRuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlCedula)
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlName)
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(txtConvencional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlConvencional)
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlCelular)
-                .addGap(18, 18, 18)
+                .addComponent(jlCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlemail)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         btnGuardar.setBackground(new java.awt.Color(99, 242, 135));
@@ -439,12 +495,12 @@ public final class pnlCliente extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -470,20 +526,20 @@ public final class pnlCliente extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtTipoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPersoneria, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap(33, Short.MAX_VALUE)
                 .addComponent(txtPersoneria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtTipoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -491,11 +547,11 @@ public final class pnlCliente extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(32, Short.MAX_VALUE)
                 .addComponent(PnlConsultaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -504,13 +560,13 @@ public final class pnlCliente extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PnlConsultaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PnlConsultaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -552,7 +608,7 @@ public final class pnlCliente extends javax.swing.JPanel {
                 insertarDatos();
                 limpiarCajas();
             } else {
-                actualizarDatos();
+                actualizarDatos(txtCedulaRuc.getText());
                 limpiarCajas();
             } 
         }else{

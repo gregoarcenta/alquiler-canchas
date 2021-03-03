@@ -47,11 +47,11 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
               <Component id="PnlConsultaFactura" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="37" max="32767" attributes="0"/>
+              <EmptySpace pref="74" max="32767" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="52" max="32767" attributes="0"/>
+              <EmptySpace pref="59" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
@@ -63,14 +63,14 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <Component id="PnlConsultaFactura" min="-2" max="-2" attributes="0"/>
+                  <Component id="PnlConsultaFactura" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+              <EmptySpace pref="13" max="32767" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="13" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -86,59 +86,64 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="0" pref="24" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jlCedula" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="jlName" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="jlConvencional" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="jlCelular" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="jlDireccion" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="jlemail" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="txtCorreo" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="txtDireccion" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="txtCelular" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="txtConvencional" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="txtNombre" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
-                          <Component id="txtCedulaRuc" alignment="1" min="-2" pref="345" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="146" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="jlemail" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtCorreo" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jlDireccion" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtDireccion" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jlCelular" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtCelular" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jlConvencional" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtConvencional" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jlName" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtNombre" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jlCedula" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtCedulaRuc" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="55" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="24" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtCedulaRuc" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jlCedula" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="32767" attributes="0"/>
                   <Component id="txtNombre" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jlName" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="32767" attributes="0"/>
                   <Component id="txtConvencional" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jlConvencional" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="32767" attributes="0"/>
                   <Component id="txtCelular" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jlCelular" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jlCelular" min="-2" pref="14" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="32767" attributes="0"/>
                   <Component id="txtDireccion" min="-2" pref="37" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jlDireccion" min="-2" pref="14" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="32767" attributes="0"/>
                   <Component id="txtCorreo" min="-2" pref="37" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jlemail" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="33" max="32767" attributes="0"/>
+                  <EmptySpace pref="41" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -159,10 +164,12 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="1"/>
             </Property>
-            <Property name="phColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            <Property name="phColor" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new java.awt.Color(204, 204, 204)" type="code"/>
             </Property>
-            <Property name="placeholder" type="java.lang.String" value="SEARCH"/>
+            <Property name="placeholder" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="&quot;RUC/C&#xe9;dula&quot;" type="code"/>
+            </Property>
             <Property name="selectedTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="33" type="rgb"/>
             </Property>
@@ -410,13 +417,13 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                  <EmptySpace pref="27" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnGuardar" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
                       <Component id="btnActualizar" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
                       <Component id="btnEliminar" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="18" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -504,23 +511,23 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="txtTipoCliente" min="-2" pref="297" max="-2" attributes="0"/>
                       <Component id="txtPersoneria" min="-2" pref="297" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="44" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                  <EmptySpace pref="33" max="32767" attributes="0"/>
                   <Component id="txtPersoneria" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="txtTipoCliente" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="21" max="32767" attributes="0"/>
+                  <EmptySpace pref="33" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
