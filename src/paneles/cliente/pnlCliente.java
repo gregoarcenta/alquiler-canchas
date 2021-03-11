@@ -160,7 +160,7 @@ public final class pnlCliente extends javax.swing.JPanel {
             pst.execute();
             new AlertSuccess(new Principal(), true).setVisible(true);         
         }
-        catch(Exception e){
+        catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Error en el registro " + e.getMessage());
         }
     }
@@ -196,7 +196,7 @@ public final class pnlCliente extends javax.swing.JPanel {
             a.titulo.setText("Registro actualizado exitosamente!");
             a.setVisible(true);       
         }
-        catch(Exception e){
+        catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Error en la Actualización " + e.getMessage());
         }
     }
@@ -620,7 +620,7 @@ public final class pnlCliente extends javax.swing.JPanel {
     
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
        String cedula = txtCedulaRuc.getText();
-        if("RUC/Cèdula".equals(cedula) || "".equals(cedula)){
+        if("RUC/Cédula".equals(cedula) || "".equals(cedula)){
             new AlertError(new Principal(), true).setVisible(true);
         }else if (existenDatos(cedula)) {
                 mostrarDatos(cedula);   
@@ -635,7 +635,7 @@ public final class pnlCliente extends javax.swing.JPanel {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String cedula = txtCedulaRuc.getText();
-        if("RUC/Cèdula".equals(cedula) || "".equals(cedula)){
+        if("RUC/Cédula".equals(cedula) || "".equals(cedula)){
             new AlertError(new Principal(), true).setVisible(true);
         }else{
             eliminarDatos(cedula);

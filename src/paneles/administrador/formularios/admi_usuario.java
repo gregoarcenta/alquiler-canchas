@@ -1,6 +1,9 @@
 package paneles.administrador.formularios;
 
 
+import alertas.AlertError;
+import alertas.AlertInformation;
+import alertas.AlertSuccess;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,13 +13,19 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import com.placeholder.PlaceHolder;
 import conexion.ConexionSQL;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
+import java.sql.SQLException;
+import principal.Principal;
+import validaciones.Validacion;
 
 /**
  *
- * @author USUARIO
+ * @author modulo usuario
  */
 public class admi_usuario extends javax.swing.JPanel {
+    Validacion v = new Validacion();
     ConexionSQL enlace = new ConexionSQL();
     Connection conect = enlace.conexion();
     PlaceHolder holder;
@@ -26,39 +35,51 @@ public class admi_usuario extends javax.swing.JPanel {
      */
     public admi_usuario() {
         initComponents();
-         mostrarDatosCliente(0,null);
-         
-           holder = new PlaceHolder(txt_id, "id");
-        txt_id.setFont(new Font("Tahoma", Font.BOLD, 18));
-        add(txt_id);
+        mostrarDatos();
         
-        holder = new PlaceHolder(txt_ced, "Cedula");
+        txt_ced.setPlaceholder("Cédula");
+        txt_ced.setPhColor(new java.awt.Color(102, 102, 102));
         txt_ced.setFont(new Font("Tahoma", Font.BOLD, 18));
-        add(txt_ced);
         
-        holder = new PlaceHolder(txt_nom, "Nombre Usuario");
+        txt_nom.setPlaceholder("Nombre Usuario");
+        txt_nom.setPhColor(new java.awt.Color(102, 102, 102));
         txt_nom.setFont(new Font("Tahoma", Font.BOLD, 18));
-        add(txt_nom);
         
-        holder = new PlaceHolder(txt_usu, "Usuario");
+        txt_usu.setPlaceholder("Usuario");
+        txt_usu.setPhColor(new java.awt.Color(102, 102, 102));
         txt_usu.setFont(new Font("Tahoma", Font.BOLD, 18));
-        add(txt_usu);
         
-        holder = new PlaceHolder(txt_cla, "Clave");
+        txt_cla.setPlaceholder("Clave");
+        txt_cla.setPhColor(new java.awt.Color(102, 102, 102));
         txt_cla.setFont(new Font("Tahoma", Font.BOLD, 18));
-        add(txt_cla);
+ 
     }
     
-    
-        
-    public void holder(){
-
+    public boolean existenDatos(String cedula){
+        try {
+            String SQL = "select * from tmaeusualq where ced_usuario = '"+cedula+"'";
+            Statement st=conect.createStatement();
+            ResultSet rs=st.executeQuery(SQL);
+            while (rs.next()) {                
+                if (rs.getString("ced_usuario")!="") {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }catch (HeadlessException | SQLException e) {
+             JOptionPane.showMessageDialog(null, "Hubo un error.\n"
+                                     + "Por favor, ingrese una cedula válida.", 
+                                        "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            }
+        return false;
     }
-    public void mostrarDatosCliente(int opBuscar, String valor ){
+ 
+    public void mostrarDatos(){
               
         DefaultTableModel tusuario = new DefaultTableModel();
   
-        tusuario.addColumn("id");
         tusuario.addColumn("Cedula Usuario");
         tusuario.addColumn("Nombre Usuario");
         tusuario.addColumn("Usuario");
@@ -66,57 +87,67 @@ public class admi_usuario extends javax.swing.JPanel {
         tusuario.addColumn("Rol");
         tusuario.addColumn("Fecha registro");
         
-             tabla_usuario.setModel(tusuario);
-        
-       
-       
-        
-        String []datos = new String[8];
+        tabla_usuario.setModel(tusuario);
+        String []datos = new String[7];
         
         try {
             Statement leer = conect.createStatement();
             ResultSet resultado = leer.executeQuery("SELECT * FROM tmaeusualq");
             
             while (resultado.next()){
-                datos[0] = resultado.getString(1);
-                datos[1] = resultado.getString(2);
-                datos[2] = resultado.getString(3);
-                datos[3] = resultado.getString(4);
-                datos[4] = resultado.getString(5);
-                datos[5] = resultado.getString(6);
-                datos[6] = resultado.getString(7);
+                datos[0] = resultado.getString(2);
+                datos[1] = resultado.getString(3);
+                datos[2] = resultado.getString(4);
+                datos[3] = resultado.getString(5);
+                datos[4] = resultado.getString(6);
+                datos[5] = resultado.getString(7);
                
                 tusuario.addRow(datos);
             }
             tabla_usuario.setModel(tusuario);
             
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e+"Error al consultar");
         }
-     }
+    }
+    
+    public void insertarDatos(){
+        try {
+            PreparedStatement guardar = conect.prepareStatement("INSERT INTO  tmaeusualq(ced_usuario,nom_usuario,usu_usuario,cla_usuario,rol_usuario,fec_usuario) VALUES(?,?,?,?,?,CURDATE())");
+    
+            guardar.setString(1, txt_ced.getText());
+            guardar.setString(2, txt_nom.getText());
+            guardar.setString(3, txt_usu.getText());
+            guardar.setString(4, txt_cla.getText());
+            guardar.setString(5, txt_rol.getSelectedItem().toString());
+         
+            guardar.executeUpdate();
+            new AlertSuccess(new Principal(), true).setVisible(true); 
+            mostrarDatos();
+        } catch (SQLException e) {    
+            JOptionPane.showMessageDialog(null, e+ "no se logro el registro");
+        }
+    }
     
     
-    public void Modificardatos(){
+    public void ModificarDatos(){
          int fila = tabla_usuario.getSelectedRow();
-         
-         int id = Integer.parseInt(this.tabla_usuario.getValueAt(fila,0).toString());
-         String ced_usuario = tabla_usuario.getValueAt(fila,1).toString();
-         String nom_usuario = tabla_usuario.getValueAt(fila,2).toString();
-         String usu_usuario = tabla_usuario.getValueAt(fila,3).toString();
-         String cla_usuario= tabla_usuario.getValueAt(fila,4).toString();
-         String rol_usuario = tabla_usuario.getValueAt(fila,5).toString();
-         String fec_usuario = tabla_usuario.getValueAt(fila,6).toString();
-        
-         
-         try {
-             PreparedStatement actu = conect.prepareStatement(" UPDATE tmaeusualq SET ced_usuario='"+ced_usuario+"',nom_usuario='"+nom_usuario+"',usu_usuario='"+usu_usuario+"',cla_usuario='"+cla_usuario+"',rol_usuario='"+rol_usuario+"',fec_usuario='"+fec_usuario+"'WHERE id_usuario = '"+id+"' ");
-             actu.executeUpdate();
-             mostrarDatosCliente(0,null);
-             
-             
-             
-       
-         } catch (Exception e) {
+         String ced_usuario = tabla_usuario.getValueAt(fila,0).toString();
+         String nom_usuario = tabla_usuario.getValueAt(fila,1).toString();
+         String usu_usuario = tabla_usuario.getValueAt(fila,2).toString();
+         String cla_usuario= tabla_usuario.getValueAt(fila,3).toString();
+         String rol_usuario = tabla_usuario.getValueAt(fila,4).toString();       
+        try {
+            PreparedStatement actu = conect.prepareStatement(" UPDATE tmaeusualq SET nom_usuario='"+nom_usuario+"',usu_usuario='"+usu_usuario+"',cla_usuario='"+cla_usuario+"',rol_usuario='"+rol_usuario+"' WHERE ced_usuario = '"+ced_usuario+"' ");
+            actu.executeUpdate();
+            
+            AlertSuccess a = new AlertSuccess(new Principal(), true);
+            a.titulo.setText("Registro actualizado exitosamente!");
+            a.setVisible(true);
+            
+            mostrarDatos();
+                  
+         } catch (SQLException e) {
              JOptionPane.showMessageDialog(null, e +"no se logro actualizar");
          }
          
@@ -139,8 +170,6 @@ public class admi_usuario extends javax.swing.JPanel {
         txt_nom = new app.bolivia.swing.JCTextField();
         txt_usu = new app.bolivia.swing.JCTextField();
         txt_cla = new app.bolivia.swing.JCTextField();
-        txt_id = new app.bolivia.swing.JCTextField();
-        JD_Fec = new com.toedter.calendar.JDateChooser();
         txt_ced = new app.bolivia.swing.JCTextField();
         jLabel1 = new javax.swing.JLabel();
         txt_rol = new javax.swing.JComboBox<>();
@@ -189,7 +218,7 @@ public class admi_usuario extends javax.swing.JPanel {
         });
 
         txt_nom.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
-        txt_nom.setForeground(new java.awt.Color(204, 204, 204));
+        txt_nom.setForeground(new java.awt.Color(51, 51, 51));
         txt_nom.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         txt_nom.setPhColor(new java.awt.Color(255, 255, 255));
         txt_nom.setPlaceholder("SEARCH");
@@ -201,7 +230,7 @@ public class admi_usuario extends javax.swing.JPanel {
         });
 
         txt_usu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
-        txt_usu.setForeground(new java.awt.Color(204, 204, 204));
+        txt_usu.setForeground(new java.awt.Color(51, 51, 51));
         txt_usu.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         txt_usu.setPhColor(new java.awt.Color(255, 255, 255));
         txt_usu.setPlaceholder("SEARCH");
@@ -213,7 +242,7 @@ public class admi_usuario extends javax.swing.JPanel {
         });
 
         txt_cla.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
-        txt_cla.setForeground(new java.awt.Color(204, 204, 204));
+        txt_cla.setForeground(new java.awt.Color(51, 51, 51));
         txt_cla.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         txt_cla.setPhColor(new java.awt.Color(255, 255, 255));
         txt_cla.setPlaceholder("SEARCH");
@@ -224,27 +253,8 @@ public class admi_usuario extends javax.swing.JPanel {
             }
         });
 
-        txt_id.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
-        txt_id.setForeground(new java.awt.Color(204, 204, 204));
-        txt_id.setActionCommand("<Not Set>");
-        txt_id.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        txt_id.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txt_id.setName(""); // NOI18N
-        txt_id.setOpaque(false);
-        txt_id.setPhColor(new java.awt.Color(255, 255, 255));
-        txt_id.setPlaceholder("SEARCH");
-        txt_id.setSelectedTextColor(new java.awt.Color(51, 51, 51));
-        txt_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_idActionPerformed(evt);
-            }
-        });
-
-        JD_Fec.setToolTipText("y-m-d");
-        JD_Fec.setDateFormatString("y-M-d");
-
         txt_ced.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(51, 51, 51)));
-        txt_ced.setForeground(new java.awt.Color(204, 204, 204));
+        txt_ced.setForeground(new java.awt.Color(51, 51, 51));
         txt_ced.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         txt_ced.setPhColor(new java.awt.Color(255, 255, 255));
         txt_ced.setPlaceholder("SEARCH");
@@ -258,8 +268,7 @@ public class admi_usuario extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
         jLabel1.setText("Ingresar");
 
-        txt_rol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Usuario" }));
-        txt_rol.setSelectedItem(txt_rol);
+        txt_rol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Administrador", "Usuario" }));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/descarga.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -274,30 +283,24 @@ public class admi_usuario extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(btnagregar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_ced, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                        .addComponent(txt_usu, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt_cla, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JD_Fec, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addComponent(btnagregar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addGap(15, 15, 15)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(txt_ced, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
+                .addComponent(txt_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(txt_usu, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(txt_cla, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(txt_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,58 +312,35 @@ public class admi_usuario extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel1)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_nom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_usu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_cla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_ced, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JD_Fec, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_nom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_usu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_cla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_ced, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(353, 353, 353))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
-
-try {
-            PreparedStatement guardar = conect.prepareStatement("INSERT INTO  tmaeusualq(id_usuario,ced_usuario,nom_usuario,usu_usuario,cla_usuario,rol_usuario,fec_usuario) VALUES(?,?,?,?,?,?,?)");
-    
-            
-            guardar.setString(1,txt_id.getText());
-            guardar.setString(2, txt_ced.getText());
-            guardar.setString(3, txt_nom.getText());
-            guardar.setString(4, txt_usu.getText());
-            guardar.setString(5, txt_cla.getText());
-            guardar.setString(6, txt_rol.getSelectedItem().toString());
-            guardar.setString(7, ((JTextField)JD_Fec.getDateEditor().getUiComponent()).getText());
-            
-     
-            
-            
-            guardar.executeUpdate();
-            
-      
-           
-            
-             JOptionPane.showMessageDialog(null,"registrado");
-    
-                       
-
-            txt_id.requestFocus();
-        } catch (Exception e) {
-            
-            JOptionPane.showMessageDialog(null, e+ "no se logro el registro");
-        }
-        // TODO add your handling code here:
+        if(v.validateCedula(txt_ced.getText()) && v.validateName(txt_nom.getText()) && v.validateCedula(txt_usu.getText()) && !txt_cla.getText().equals("") && txt_rol.getSelectedItem() != "Seleccionar"){
+            if (!existenDatos(txt_ced.getText())) {
+                insertarDatos();
+            } else {
+                AlertInformation a = new AlertInformation(new Principal(), true);
+                a.titulo.setText("Cedula ingresada ya existe");
+                a.titulo2.setText("Inténtelo nuevamente!");
+                a.titulo2.setForeground(Color.BLACK);
+                a.setVisible(true);
+            } 
+        }else{
+            AlertError a = new AlertError(new Principal(), true);
+            a.titulo.setText("Por favor, rellena el formulario correctamente");
+            a.setVisible(true);
+        }        
     }//GEN-LAST:event_btnagregarActionPerformed
 
     private void txt_nomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nomActionPerformed
@@ -375,23 +355,16 @@ try {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_claActionPerformed
 
-    private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
-        // TODO add your handling code here:
-      
-    }//GEN-LAST:event_txt_idActionPerformed
-
     private void txt_cedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cedActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_cedActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Modificardatos();
+        ModificarDatos();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser JD_Fec;
     private javax.swing.JButton btnagregar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -400,7 +373,6 @@ try {
     private javax.swing.JTable tabla_usuario;
     private app.bolivia.swing.JCTextField txt_ced;
     private app.bolivia.swing.JCTextField txt_cla;
-    private app.bolivia.swing.JCTextField txt_id;
     private app.bolivia.swing.JCTextField txt_nom;
     private javax.swing.JComboBox<String> txt_rol;
     private app.bolivia.swing.JCTextField txt_usu;
