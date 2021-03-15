@@ -1,12 +1,16 @@
 package paneles.facturacion;
 
+import SQL.Metodos_SQL;
 import alertas.AlertError;
 import alertas.AlertInformation;
 import alertas.AlertSuccess;
+import alertas.AlertWarningDelete;
+import alertas.AlertWarningDeleteFactura;
 import conexion.ConexionSQL;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,33 +19,54 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import principal.Principal;
 import validaciones.Validacion;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public final class pnlFacturacion extends javax.swing.JPanel {
     ConexionSQL cnn = new ConexionSQL();
+    Metodos_SQL metodos_SQL = new Metodos_SQL();
     Connection con = cnn.conexion();
     Validacion v = new Validacion();
-
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    
     private static Connection conexion;
     private static PreparedStatement pst;
     private static ResultSet rs;
 
     //variables para el boton guardar de facturacion
     int id_cliente;
-    int id_cancha;  
+    int id_cancha;
+    int id_alquiler;
     int des_alquiler;
     String fec_alquiler;
     String hor_alquiler;
     String tie_alquiler;
     double pre_alquiler;
     
+    DefaultTableModel tabla;
+    String titulo_columnas[] = {"Fecha", "Hora", "Tiempo", "Precio"};
+
+    String fila[] = new String[4];
+    
 
     public pnlFacturacion() {
         initComponents();
         Placeholder();
+        mostrarDatosTabla();
     }
 
     public void Placeholder() {
@@ -88,6 +113,39 @@ public final class pnlFacturacion extends javax.swing.JPanel {
         txtTiempo.setPlaceholder("Tiempo");
         txtTiempo.setPhColor(new java.awt.Color(102, 102, 102));
         txtTiempo.setFont(new Font("Tahoma", Font.BOLD, 18));
+    }
+    
+    public void mostrarDatosTabla() {
+        tabla = new DefaultTableModel(null, titulo_columnas);
+
+        try {
+            conexion = cnn.conexion();
+            String consulta_tabla = "SELECT * FROM ttraalqalq";
+            pst = conexion.prepareStatement(consulta_tabla);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                fila[0] = rs.getString(4);
+                fila[1] = rs.getString(5);
+                fila[2] = rs.getString(7);
+                fila[3] = rs.getString(6);
+                tabla.addRow(fila);
+
+            }
+
+            muestraTabla.setModel(tabla);
+
+            conexion.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error" + e);
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException e) {
+                System.out.println("Error" + e);
+            }
+        }
     }
     
     public boolean existeCedula(String cedula){
@@ -224,7 +282,8 @@ public final class pnlFacturacion extends javax.swing.JPanel {
             int i = pst.executeUpdate();
             actualizarEstado(txtCodigoCancha.getText());
             if (i > 0) {
-                new AlertSuccess(new Principal(), true).setVisible(true); 
+                new AlertSuccess(new Principal(), true).setVisible(true);
+                mostrarDatosTabla();
             } else {
                 JOptionPane.showMessageDialog(null, "Error");
             }
@@ -293,6 +352,25 @@ public final class pnlFacturacion extends javax.swing.JPanel {
         CbxPersoneria.setSelectedIndex(0);
         txtDescuento.setText("");
     }
+    
+        public void limpiar2() {
+        txtCedulaRuc.setText("");
+        txtCodigoCancha.setText("");
+        txtNombreRepresentante.setText("");
+        txtNumConvencional.setText("");
+        txtNumCelular.setText("");
+        txtDireccion.setText("");
+        txtCorreo.setText("");
+        txtPrecioCanchaConsulta.setText("");
+        CbxPersoneria.setSelectedIndex(0);
+        txtDescuento.setText("");
+        txtHora1.setText("");
+        txtPrecio.setText("");
+        jLSubtotal.setText("");
+        jLDescuento.setText("");
+        jLIvaFactura.setText("");
+        jLTotalFactura.setText("");
+    }
 
     public void calcularPrecio() {
         double subTotal;
@@ -330,6 +408,15 @@ public final class pnlFacturacion extends javax.swing.JPanel {
         double totalConDescuento = subtotal - ((subtotal * descuento)/100);
         return totalConDescuento;
     }
+    
+    public void eliminacionAlquilerPregunta() {
+        String fecha = formatter.format(txtFecha.getDate());
+        String hora = txtHora1.getText();
+        AlertWarningDeleteFactura w = new AlertWarningDeleteFactura(new Principal(), true,fecha,hora);
+        w.titulo.setText("Está seguro que desea eliminar el registro?");
+        w.setVisible(true);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -361,11 +448,10 @@ public final class pnlFacturacion extends javax.swing.JPanel {
         btnCalcularPrecioFactura = new javax.swing.JButton();
         txtTiempo = new app.bolivia.swing.JCTextField();
         jSeparator2 = new javax.swing.JSeparator();
-        btnEliminarFecha = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         tableFacturacion = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        muestraTabla = new javax.swing.JTable();
         txtPrecio = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -612,14 +698,10 @@ public final class pnlFacturacion extends javax.swing.JPanel {
 
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
 
-        btnEliminarFecha.setBackground(new java.awt.Color(255, 255, 255));
-        btnEliminarFecha.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar_hora.png"))); // NOI18N
-
         jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTable1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        muestraTabla.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 12)); // NOI18N
+        muestraTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -630,15 +712,20 @@ public final class pnlFacturacion extends javax.swing.JPanel {
                 "Fecha", "Hora", "Tiempo", "Precio"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        muestraTabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                muestraTablaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(muestraTabla);
 
         javax.swing.GroupLayout tableFacturacionLayout = new javax.swing.GroupLayout(tableFacturacion);
         tableFacturacion.setLayout(tableFacturacionLayout);
         tableFacturacionLayout.setHorizontalGroup(
             tableFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tableFacturacionLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         tableFacturacionLayout.setVerticalGroup(
@@ -707,11 +794,14 @@ public final class pnlFacturacion extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
+                        .addComponent(tableFacturacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
                         .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
                                 .addComponent(btnCalcularPrecioFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)
-                                .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtHora1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -721,11 +811,6 @@ public final class pnlFacturacion extends javax.swing.JPanel {
                                 .addGap(11, 11, 11))
                             .addComponent(jSeparator1)
                             .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
-                                .addComponent(btnEliminarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(tableFacturacion, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlMuestraFacturaLayout.createSequentialGroup()
@@ -758,13 +843,8 @@ public final class pnlFacturacion extends javax.swing.JPanel {
                         .addComponent(txtPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(PnlMuestraFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(btnEliminarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PnlMuestraFacturaLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tableFacturacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tableFacturacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(73, 73, 73)
@@ -792,6 +872,11 @@ public final class pnlFacturacion extends javax.swing.JPanel {
         btnImprimirFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/inprimir_factura.png"))); // NOI18N
         btnImprimirFactura.setText("Imprimir");
         btnImprimirFactura.setBorder(null);
+        btnImprimirFactura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirFacturaActionPerformed(evt);
+            }
+        });
 
         btnEliminarFactura.setBackground(new java.awt.Color(85, 70, 140));
         btnEliminarFactura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -848,10 +933,11 @@ public final class pnlFacturacion extends javax.swing.JPanel {
                     .addComponent(PnlConsultaFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PnlMuestraFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnImprimirFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnImprimirFactura, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnEliminarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGuardarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -860,7 +946,7 @@ public final class pnlFacturacion extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1065, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -875,16 +961,19 @@ public final class pnlFacturacion extends javax.swing.JPanel {
 
     private void btnGuardarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarFacturaActionPerformed
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        if (txtFecha.getDate()!= null) {
-            this.fec_alquiler = formatter.format(txtFecha.getDate());
-        }else{
-            AlertError a = new AlertError(new Principal(), true);
-            a.titulo.setText("La fecha ingresada no es correcta");
-            a.setVisible(true);
-            return;
-        }
- 
+            if (txtCedulaRuc.getText().equals("") || txtCodigoCancha.getText().equals("")) {
+                AlertError a = new AlertError(new Principal(), true);
+                a.titulo.setText("Tienes que llenar todos los campos!");
+                a.setVisible(true);
+                return;
+            }
+            if (txtFecha.getDate() == null) {
+                AlertError a = new AlertError(new Principal(), true);
+                a.titulo.setText("Tienes que colocar una fecha!");
+                a.setVisible(true);
+                return;    
+            }
+        this.fec_alquiler = formatter.format(txtFecha.getDate());
         this.hor_alquiler = txtHora1.getText();
         this.tie_alquiler = txtTiempo.getText();        
         this.pre_alquiler = Double.parseDouble(jLTotalFactura.getText());
@@ -898,6 +987,7 @@ public final class pnlFacturacion extends javax.swing.JPanel {
         if(v.validateId(this.id_cliente) && v.validateId(this.id_cancha) && v.validateFecha(this.fec_alquiler) && v.validateHora(this.hor_alquiler) && v.validateId(Integer.parseInt(this.tie_alquiler)) && v.validatePrecio(String.valueOf(this.pre_alquiler)) && v.validateDescuento(this.des_alquiler) ){
             if (existeCedula(txtCedulaRuc.getText())) {
                 guardar_nuevaConsulta_factura(this.id_cliente, this.id_cancha, this.fec_alquiler, this.hor_alquiler, this.pre_alquiler, this.tie_alquiler, this.des_alquiler);             
+                limpiar2();
             } else {
                 AlertError a = new AlertError(new Principal(), true);
                 a.titulo.setText("Por favor, rellena el formulario correctamente");
@@ -976,8 +1066,47 @@ public final class pnlFacturacion extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCalcularPrecioFacturaActionPerformed
 
     private void btnEliminarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarFacturaActionPerformed
-        
+        eliminacionAlquilerPregunta();
     }//GEN-LAST:event_btnEliminarFacturaActionPerformed
+
+    private void btnImprimirFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirFacturaActionPerformed
+        Map p=new HashMap();
+        JasperReport report;
+        JasperPrint print;
+        
+        try {
+            report=JasperCompileManager.compileReport(new File("").getAbsolutePath()+
+                    "/src/Factura/Factura.jrxml");
+            print=JasperFillManager.fillReport(report, p, conexion);
+            JasperViewer view=new JasperViewer(print,false);
+            view.setTitle("Factura");
+            view.setVisible(true);            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnImprimirFacturaActionPerformed
+
+    private void muestraTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_muestraTablaMouseClicked
+        int fila = muestraTabla.getSelectedRow();
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe Seleccionar una Fila");
+        } else {
+            String[] fec = tabla.getValueAt(fila, 0).toString().split("-");
+            LocalDate localDate = LocalDate.of(Integer.parseInt(fec[0]),Integer.parseInt(fec[1]),Integer.parseInt(fec[2]));
+            Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+            String hora = tabla.getValueAt(fila, 1).toString();
+            String tiempo = tabla.getValueAt(fila, 2).toString();
+            String precio = tabla.getValueAt(fila, 3).toString();
+            txtFecha.setDate(date);
+            txtHora1.setText(hora);
+            txtTiempo.setText(tiempo);
+            txtPrecio.setText(precio);
+            //muestraTabla.setEnabled(false);
+            
+        }
+    }//GEN-LAST:event_muestraTablaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -989,7 +1118,6 @@ public final class pnlFacturacion extends javax.swing.JPanel {
     private javax.swing.JButton btnBuscarCodigoCancha;
     private javax.swing.JButton btnCalcularPrecioFactura;
     private javax.swing.JButton btnEliminarFactura;
-    private javax.swing.JButton btnEliminarFecha;
     private javax.swing.JButton btnGuardarFactura;
     private javax.swing.JButton btnImprimirFactura;
     private javax.swing.JLabel jLDescuento;
@@ -1007,7 +1135,7 @@ public final class pnlFacturacion extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable muestraTabla;
     private javax.swing.JPanel tableFacturacion;
     private app.bolivia.swing.JCTextField txtCedulaRuc;
     private app.bolivia.swing.JCTextField txtCodigoCancha;
